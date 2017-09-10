@@ -1,0 +1,35 @@
+pipeline {
+    agent {
+        dockerfile {
+            dir '.ci'
+        }
+    }
+
+    stages {
+        stage('Install') {
+            steps {
+                sh 'npm-s3 install'
+            }
+        }
+        stage('Test') {
+            parallel {
+                stage('Lint') {
+                    steps {
+                        sh 'npm run lint'
+                    }
+                }
+                stage('Unit') {
+                    steps {
+                        sh 'npm run test'
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            deleteDir()
+        }
+    }
+}

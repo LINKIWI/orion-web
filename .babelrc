@@ -1,0 +1,26 @@
+{
+  "env": {
+    "production": {
+      "presets": [
+        ["env", {"modules": false}],
+        "react",
+        "stage-0"
+      ],
+      "plugins": [
+        ["transform-react-remove-prop-types", {"removeImports": true}]
+      ]
+    }
+  },
+  "presets": [
+    "env",
+    "react",
+    "stage-0"
+  ],
+  "plugins": [
+    ["module-resolver", {
+      "root": [
+        "./src"
+      ]
+    }]
+  ]
+}
