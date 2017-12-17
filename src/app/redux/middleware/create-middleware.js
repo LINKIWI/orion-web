@@ -9,7 +9,9 @@ const noop = () => {};
  *
  * @param {Object} middlewareMapping Map of action type names to middleware functions.
  */
-const createMiddleware = (middlewareMapping) => (store) => (next) => (action) =>
-  ((middlewareMapping[action.type] || noop)(store, action), next(action));
+const createMiddleware = (middlewareMapping) => (store) => (next) => (action) => {
+  (middlewareMapping[action.type] || noop)(store, action);
+  return next(action);
+};
 
 export default createMiddleware;

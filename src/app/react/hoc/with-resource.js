@@ -79,7 +79,7 @@ const withResource = (opts) => (WrappedComponent) =>
         <WrappedComponent {...props} />
       );
     }
-};
+  };
 
 
 export default withResource;

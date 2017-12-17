@@ -125,7 +125,7 @@ export default class Slider extends Component {
               style={{
                 backgroundColor: colors.gray20,
                 height: '1px',
-                left: `${DOT_DIAMETER / 2 + offset}px`,
+                left: `${(DOT_DIAMETER / 2) + offset}px`,
                 position: 'relative',
                 top: `${DOT_DIAMETER / 2}px`,
                 width: `${width - DOT_DIAMETER - offset}px`,
