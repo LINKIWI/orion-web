@@ -7,7 +7,7 @@ import { LoadingBar } from 'react-elemental';
  */
 const Header = ({ isLoading }) => (
   <div style={{ width: '100%' }}>
-    {isLoading && <LoadingBar position="absolute" />}
+    {isLoading && <LoadingBar position="absolute" style={{ zIndex: 2 }} />}
   </div>
 );
 
