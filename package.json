@@ -1,7 +1,7 @@
 {
-  "name": "react-static-boilerplate",
-  "version": "0.1.0",
-  "description": "Boilerplate for static websites in React",
+  "name": "orion-web",
+  "version": "0.0.1",
+  "description": "Web visualization frontend for Orion",
   "scripts": {
     "clean": "rm -rf dist/",
     "build": "webpack",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://git.kevinlin.info/personal/react-static-boilerplate.git"
+    "url": "https://git.kevinlin.info/personal/orion-web.git"
   },
   "author": "Kevin Lin <developer@kevinlin.info>",
   "license": "MIT",
