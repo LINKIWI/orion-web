@@ -28,6 +28,8 @@
     "preact-compat": "^3.17.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-elemental": "^0.0.7",
+    "react-elemental-fonts": "^0.0.1",
     "react-helmet": "^5.2.0",
     "react-redux": "^5.0.6",
     "react-router": "^4.2.0",
