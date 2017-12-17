@@ -1,11 +1,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
+const dotenv = require('dotenv');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
+const env = dotenv.load().parsed;
 
 module.exports = {
   entry: {
@@ -36,9 +38,11 @@ module.exports = {
       inlineSource: '.js$',
     }),
     new HtmlWebpackInlineSourcePlugin(),
-    isProduction && new webpack.DefinePlugin({
+    new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('production'),
+        ...isProduction && { NODE_ENV: JSON.stringify('production') },
+        ...Object.keys(env).reduce((acc, key) =>
+          Object.assign({}, acc, { [key]: JSON.stringify(env[key]) }), {}),
       },
     }),
     isProduction && new webpack.LoaderOptionsPlugin({
