@@ -24,6 +24,11 @@ export default class App extends Component {
         bold: sourceCodeProMedium,
       },
     });
+
+    if (process.env.NODE_ENV === 'production') {
+      global.luma.log.priority = 0;
+      global.deck.log.priority = 0;
+    }
   }
 
   render() {
