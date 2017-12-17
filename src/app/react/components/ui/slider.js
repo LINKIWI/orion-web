@@ -110,16 +110,28 @@ export default class Slider extends Component {
             </Text>
           </Spacing>
 
-          <div
-            style={{
-              backgroundColor: colors.gray20,
-              height: '1px',
-              left: `${DOT_DIAMETER / 2}px`,
-              position: 'relative',
-              top: `${DOT_DIAMETER / 2}px`,
-              width: `${width - DOT_DIAMETER}px`,
-            }}
-          />
+          <div style={{ width: `${width - DOT_DIAMETER}px` }}>
+            <div
+              style={{
+                backgroundColor: colors.primary,
+                height: '1px',
+                left: `${DOT_DIAMETER / 2}px`,
+                position: 'relative',
+                top: `${(DOT_DIAMETER / 2) + 1}px`,
+                width: `${offset}px`,
+              }}
+            />
+            <div
+              style={{
+                backgroundColor: colors.gray20,
+                height: '1px',
+                left: `${DOT_DIAMETER / 2 + offset}px`,
+                position: 'relative',
+                top: `${DOT_DIAMETER / 2}px`,
+                width: `${width - DOT_DIAMETER - offset}px`,
+              }}
+            />
+          </div>
 
           <Dot
             isDragging={isDragging}
