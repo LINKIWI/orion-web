@@ -3,6 +3,7 @@ import createReducer from 'app/redux/reducers/create-reducer';
 
 export const LOCATION_DISPLAY_TYPE_DOTS = 'dots';
 export const LOCATION_DISPLAY_TYPE_PATH = 'path';
+export const LOCATION_DISPLAY_TYPE_HEATMAP = 'heatmap';
 
 const initialState = {
   locationDisplayType: LOCATION_DISPLAY_TYPE_DOTS,
