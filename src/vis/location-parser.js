@@ -1,76 +1,75 @@
 import { LineLayer, ScatterplotLayer, ScreenGridLayer } from 'deck.gl';
 
 /**
+ * Decorator for transparently caching the return value of a method. The initial return value is
+ * persisted as a class variable on the initial invocation, and the cached value is immediately
+ * returned on subsequent invocations. While stateful, this caching mechanism is safe because the
+ * rendering path uses immutable state (a new instance of this class is constructed on changed
+ * data).
+ *
+ * @param {string} key Unique cache key for this method.
+ * @returns {Function} Wrapped function descriptor that caches the wrapped function's return value.
+ */
+const cacheable = (key) => (target, name, descriptor) => {
+  const method = descriptor.value;
+
+  descriptor.value = function wrappedMethod(...args) {  // eslint-disable-line no-param-reassign
+    if (!this._cache) {
+      this._cache = {};
+    }
+
+    const cachedRet = this._cache[key];
+    if (cachedRet) {
+      return cachedRet;
+    }
+
+    const ret = method.apply(this, args);
+    this._cache[key] = ret;
+    return ret;
+  };
+
+  return descriptor;
+};
+
+/**
+ * Decorator for aborting a method invocation with a default value if no data is available.
+ *
+ * @param {*} ret Desired default return value if no data is available.
+ * @returns {*} Either the original return value if data is available, or the default return value.
+ */
+const withDefinedData = (ret = null) => (target, name, descriptor) => {
+  const method = descriptor.value;
+
+  descriptor.value = function wrappedMethod(...args) {  // eslint-disable-line no-param-reassign
+    return this.data.length ? method.apply(this, args) : ret;
+  };
+
+  return descriptor;
+};
+
+
+/**
  * Translation layer to parse location data returned from the API into DeckGL layers for
  * visualization on a map.
  */
 export default class LocationParser {
+  /**
+   * Create a location data layer parser.
+   *
+   * @param {Array} data Array of location data objects returned from the API.
+   * @param {number} accuracyThreshold Maximum tolerable accuracy value for displayed points.
+   */
   constructor(data, accuracyThreshold) {
     this.data = data || [];
     this.accuracyThreshold = accuracyThreshold;
-
-    // Wrap the public methods with the withDefinedData abstraction
-    this.getScatterplotLayer = this._withDefinedData(this._getScatterplotLayer);
-    this.getLineLayer = this._withDefinedData(this._getLineLayer);
-    this.getScreenGridLayer = this._withDefinedData(this._getScreenGridLayer);
-    this.getAverageCoordinate = this._withDefinedData(this._getAverageCoordinate, {});
   }
 
   /**
-   * Calculate the average coordinate in the current location data.
-   *
-   * @return {Object} Object containing properties latitude and longitude describing the average
-   *                  coordinate in the input data.
-   */
-  _getAverageCoordinate = () => {
-    const avgLat = this.data.map(({ latitude }) => latitude).reduce((a, b) => a + b, 0);
-    const avgLon = this.data.map(({ longitude }) => longitude).reduce((a, b) => a + b, 0);
-
-    return { latitude: avgLat / this.data.length, longitude: avgLon / this.data.length };
-  };
-
-  /**
-   * Higher-order function wrapper for private layer generator methods. This function ensures that
-   * the wrapped function only executes if the parser has been initialized with data, and returns
-   * null otherwise. It is the responsibility of the client to handle null values.
-   *
-   * @param {Function} func Function to wrap.
-   * @param {*} ret Default return value if no data is available.
-   * @return {Function} Wrapped version of the function that may return null instead of a layer.
-   * @private
-   */
-  _withDefinedData = (func, ret = null) => (...args) => {
-    if (!this.data.length) {
-      return ret;
-    }
-
-    return func(...args);
-  };
-
-  /**
-   * Create a ScreenGridLayer (heatmap) from the input data.
-   *
-   * @private
-   */
-  _getScreenGridLayer = () => {
-    const screenGridData = this.data
-      .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
-      .map(({ latitude, longitude }) => ({ position: [longitude, latitude] }));
-
-    return new ScreenGridLayer({
-      id: 'location-screen-grid',
-      data: screenGridData,
-      minColor: [0, 0, 0, 0],
-      cellSizePixels: 35,
-    });
-  };
-
-  /**
    * Create a ScatterplotLayer (dots) from the input data.
-   *
-   * @private
    */
-  _getScatterplotLayer = () => {
+  @withDefinedData()
+  @cacheable('dots')
+  getScatterplotLayer() {
     const scatterplotData = this.data
       .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
       .map(({ latitude, longitude }) => ({
@@ -83,14 +82,14 @@ export default class LocationParser {
       id: 'location-scatterplot',
       data: scatterplotData,
     });
-  };
+  }
 
   /**
    * Create a LineLayer (path) from the input data.
-   *
-   * @private
    */
-  _getLineLayer = () => {
+  @withDefinedData()
+  @cacheable('path')
+  getLineLayer() {
     const firstPosition = {
       sourcePosition: [this.data[0].longitude, this.data[0].latitude],
       targetPosition: [this.data[0].longitude, this.data[0].latitude],
@@ -118,5 +117,37 @@ export default class LocationParser {
       data: lineData,
       strokeWidth: 2,
     });
-  };
+  }
+
+  /**
+   * Create a ScreenGridLayer (heatmap) from the input data.
+   */
+  @withDefinedData()
+  @cacheable('heatmap')
+  getScreenGridLayer() {
+    const screenGridData = this.data
+      .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
+      .map(({ latitude, longitude }) => ({ position: [longitude, latitude] }));
+
+    return new ScreenGridLayer({
+      id: 'location-screen-grid',
+      data: screenGridData,
+      minColor: [0, 0, 0, 0],
+      cellSizePixels: 35,
+    });
+  }
+
+  /**
+   * Calculate the average coordinate in the current location data.
+   *
+   * @return {Object} Object containing properties latitude and longitude describing the average
+   *                  coordinate in the input data.
+   */
+  @withDefinedData({})
+  getAverageCoordinate() {
+    const avgLat = this.data.map(({ latitude }) => latitude).reduce((a, b) => a + b, 0);
+    const avgLon = this.data.map(({ longitude }) => longitude).reduce((a, b) => a + b, 0);
+
+    return { latitude: avgLat / this.data.length, longitude: avgLon / this.data.length };
+  }
 }
