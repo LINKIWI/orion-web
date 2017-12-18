@@ -34,6 +34,10 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
     ],
+    // Mapbox modifies the globals in a way that Uglify statically parses incorrectly.
+    // As a workaround, skip parsing of the module completely.
+    // Reference: https://github.com/mapbox/mapbox-gl-js/issues/4359#issuecomment-303880888
+    noParse: /(mapbox-gl)\.js$/,
   },
   plugins: [
     new webpack.ProgressPlugin(),
