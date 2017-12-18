@@ -90,19 +90,25 @@ export default class LocationParser {
   @withDefinedData()
   @cacheable('path')
   getLineLayer() {
-    const firstPosition = {
-      sourcePosition: [this.data[0].longitude, this.data[0].latitude],
-      targetPosition: [this.data[0].longitude, this.data[0].latitude],
-    };
-
     const eligibleData = this.data
       .sort((a, b) => a.timestamp - b.timestamp)
       .filter(({ accuracy }) => accuracy < this.accuracyThreshold);
 
+    if (!eligibleData.length) {
+      return null;
+    }
+
+    const firstPosition = {
+      sourcePosition: [eligibleData[0].longitude, eligibleData[0].latitude],
+      targetPosition: [eligibleData[0].longitude, eligibleData[0].latitude],
+    };
+    const { timestamp: lastTimestamp } = eligibleData[eligibleData.length - 1];
+
     const lineData = eligibleData
-      .reduce((acc, { latitude, longitude }, idx) => {
+      .reduce((acc, { latitude, longitude, timestamp }) => {
         const lastEntry = acc[acc.length - 1];
-        const colorRatio = idx / eligibleData.length;
+        const colorRatio = (timestamp - this._getMinTimestamp()) /
+          (lastTimestamp - this._getMinTimestamp());
         const entry = {
           sourcePosition: lastEntry.targetPosition,
           targetPosition: [longitude, latitude],
@@ -149,5 +155,19 @@ export default class LocationParser {
     const avgLon = this.data.map(({ longitude }) => longitude).reduce((a, b) => a + b, 0);
 
     return { latitude: avgLat / this.data.length, longitude: avgLon / this.data.length };
+  }
+
+  /**
+   * Calculate the minimum timestamp among all data points that are currently eliglble.
+   *
+   * @return {number} The minimum Unix timestamp in the filtered input data.
+   * @private
+   */
+  @cacheable('minTimestamp')
+  _getMinTimestamp() {
+    return this.data
+      .filter(({ accuracy }) => accuracy < this.accuracyThreshold)
+      .map(({ timestamp }) => timestamp)
+      .reduce((acc, val) => Math.min(acc, val), Infinity);
   }
 }
