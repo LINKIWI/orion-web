@@ -24,7 +24,6 @@
     "test"
   ],
   "dependencies": {
-    "@linkiwi/react-dimensions": "^3.0.1",
     "color": "^2.0.1",
     "deck.gl": "^4.1.6",
     "deep-equal": "^1.0.1",

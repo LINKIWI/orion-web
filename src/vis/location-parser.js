@@ -13,7 +13,21 @@ export default class LocationParser {
     this.getScatterplotLayer = this._withDefinedData(this._getScatterplotLayer);
     this.getLineLayer = this._withDefinedData(this._getLineLayer);
     this.getScreenGridLayer = this._withDefinedData(this._getScreenGridLayer);
+    this.getAverageCoordinate = this._withDefinedData(this._getAverageCoordinate, {});
   }
+
+  /**
+   * Calculate the average coordinate in the current location data.
+   *
+   * @return {Object} Object containing properties latitude and longitude describing the average
+   *                  coordinate in the input data.
+   */
+  _getAverageCoordinate = () => {
+    const avgLat = this.data.map(({ latitude }) => latitude).reduce((a, b) => a + b, 0);
+    const avgLon = this.data.map(({ longitude }) => longitude).reduce((a, b) => a + b, 0);
+
+    return { latitude: avgLat / this.data.length, longitude: avgLon / this.data.length };
+  };
 
   /**
    * Higher-order function wrapper for private layer generator methods. This function ensures that
@@ -21,12 +35,13 @@ export default class LocationParser {
    * null otherwise. It is the responsibility of the client to handle null values.
    *
    * @param {Function} func Function to wrap.
+   * @param {*} ret Default return value if no data is available.
    * @return {Function} Wrapped version of the function that may return null instead of a layer.
    * @private
    */
-  _withDefinedData = (func) => (...args) => {
+  _withDefinedData = (func, ret = null) => (...args) => {
     if (!this.data.length) {
-      return null;
+      return ret;
     }
 
     return func(...args);

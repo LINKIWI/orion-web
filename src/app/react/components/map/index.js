@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import deepEqual from 'deep-equal';
 import { Spacing } from 'react-elemental';
 import DeckGL from 'deck.gl';
 import MapGL, { NavigationControl } from 'react-map-gl';
 
 const DEFAULT_VIEWPORT = {
-  longitude: -95,
-  latitude: 29,
-  zoom: 15,
+  longitude: 0,
+  latitude: 0,
+  zoom: 0,
   minZoom: 5,
   maxZoom: 50,
 };
@@ -31,8 +32,22 @@ export default class MapRoot extends Component {
     super(props);
 
     this.state = {
-      viewport: props.viewport,
+      viewport: {
+        ...DEFAULT_VIEWPORT,
+        ...props.viewport,
+      },
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!deepEqual(this.props.viewport, nextProps.viewport)) {
+      this.setState((prevState) => ({
+        viewport: {
+          ...prevState.viewport,
+          ...nextProps.viewport,
+        },
+      }));
+    }
   }
 
   handleViewportChange = (viewport) => this.setState((prevState) => ({

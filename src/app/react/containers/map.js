@@ -50,6 +50,7 @@ class MapContainer extends Component {
     }
 
     const locationParser = new LocationParser(data, accuracyThreshold);
+    const { latitude, longitude } = locationParser.getAverageCoordinate();
 
     // Changes in viewport may require re-rendering the map layers. Evaluating this here would cause
     // the layer to remain static despite changes in viewport. Instead, we'll delay evaluation by
@@ -68,6 +69,7 @@ class MapContainer extends Component {
           width={containerWidth}
           height={containerHeight}
           layersThunk={layersThunk}
+          {...latitude && longitude && { viewport: { latitude, longitude, zoom: 15 } }}
         />
       </div>
     );
