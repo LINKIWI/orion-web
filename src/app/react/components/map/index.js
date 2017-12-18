@@ -8,8 +8,8 @@ import MapGL, { NavigationControl } from 'react-map-gl';
 const DEFAULT_VIEWPORT = {
   longitude: 0,
   latitude: 0,
-  zoom: 5,
-  minZoom: 5,
+  zoom: 0,
+  minZoom: 0,
   maxZoom: 50,
 };
 

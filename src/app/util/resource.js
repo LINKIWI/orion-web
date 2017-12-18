@@ -10,6 +10,7 @@ const BASE_URL = process.env.ORION_SERVER_URL || '';
  */
 const resource = ({ endpoint, method, data }, cb) => fetch(`${BASE_URL}${endpoint}`, {
   method,
+  credentials: 'include',
   headers: {
     'Content-Type': 'application/json',
   },
