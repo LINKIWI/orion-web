@@ -7,7 +7,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const isProduction = process.env.NODE_ENV === 'production';
-const env = dotenv.load().parsed;
+const env = dotenv.load().parsed || {};
 
 module.exports = {
   entry: {

@@ -7,12 +7,26 @@ pipeline {
 
     stages {
         stage('Install') {
-            steps {
-                sh 'npm-s3 install'
+            parallel {
+                stage('Node') {
+                    steps {
+                        sh 'npm-s3 install'
+                    }
+                }
+                stage('Environment') {
+                    steps {
+                        sh 'cp .env.example .env'
+                    }
+                }
             }
         }
         stage('Test') {
             parallel {
+                stage('Build') {
+                    steps {
+                        sh 'npm run build'
+                    }
+                }
                 stage('Lint') {
                     steps {
                         sh 'npm run lint'
