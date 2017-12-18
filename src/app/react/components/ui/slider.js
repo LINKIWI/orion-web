@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { colors, Spacing, Text } from 'react-elemental';
 import Dot from 'app/react/components/ui/dot';
 import { clip } from 'app/util/number';
+import { unselectable } from 'app/util/style';
 
 // Default diameter (in pixels) of the slider dot.
 const DOT_DIAMETER = 14;
@@ -74,9 +75,10 @@ export default class Slider extends Component {
     return (
       <div
         onMouseMove={this.handleMouseMove}
+        onMouseDown={this.handleClickStateChange(true)}
         onMouseUp={this.handleClickStateChange(false)}
         onMouseLeave={this.handleClickStateChange(false)}
-        style={{ display: 'inline-block' }}
+        style={{ cursor: 'pointer', display: 'inline-block' }}
         ref={this.setRef}
       >
         <div style={{ left: `${-DOT_DIAMETER / 2}px`, position: 'relative' }}>
@@ -90,6 +92,7 @@ export default class Slider extends Component {
                 opacity: isDragging ? 1 : 0,
                 position: 'relative',
                 transition: 'opacity 0.15s ease',
+                ...unselectable,
               }}
               bold
             >
@@ -124,15 +127,14 @@ export default class Slider extends Component {
             isDragging={isDragging}
             offset={offset}
             size={DOT_DIAMETER}
-            onMouseDown={this.handleClickStateChange(true)}
           />
         </div>
 
         <Spacing size="tiny" top style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Text size="kilo" color="gray60" style={{ alignSelf: 'flex-start' }}>
+          <Text size="kilo" color="gray60" style={{ alignSelf: 'flex-start', ...unselectable }}>
             {formatter(min)}
           </Text>
-          <Text size="kilo" color="gray60" style={{ alignSelf: 'flex-end' }}>
+          <Text size="kilo" color="gray60" style={{ alignSelf: 'flex-end', ...unselectable }}>
             {formatter(max)}
           </Text>
         </Spacing>

@@ -50,7 +50,6 @@ export default class Dot extends Component {
         style={{
           backgroundColor,
           borderRadius: `${size}px`,
-          cursor: 'pointer',
           height: `${size}px`,
           left: `${offset}px`,
           position: 'relative',
