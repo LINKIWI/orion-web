@@ -19,7 +19,7 @@ const RootContainer = () => (
     <div style={{ width: '100%', height: '100vh' }}>
       <MapContainer />
 
-      <Spacing top right style={{ backgroundColor: 'white', position: 'absolute', right: 0 }}>
+      <Spacing top right style={{ position: 'absolute', right: 0 }}>
         <ControlPanelContainer />
       </Spacing>
     </div>

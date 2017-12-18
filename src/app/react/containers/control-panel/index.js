@@ -20,9 +20,11 @@ class ControlPanelContainer extends Component {
       <Spacing
         size="large"
         style={{
+          backgroundColor: 'white',
           maxHeight: isExpanded ? '100vh' : '25px',
+          opacity: isExpanded ? 1 : 0.5,
           overflow: 'hidden',
-          transition: 'max-height 0.4s ease',
+          transition: 'all 0.4s ease',
           width: '500px',
         }}
         top
