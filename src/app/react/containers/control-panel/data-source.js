@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { spacing, Alert } from 'react-elemental';
 import dottie from 'dottie';
 import withResource from 'app/react/hoc/with-resource';
 import DataSource from 'app/react/components/control-panel/data-source';
@@ -19,7 +20,7 @@ import { dateToUnixTimestamp, unixTimestampToDate } from 'app/util/time';
  * control panel.
  */
 const DataSourceContainer = ({
-  userDevices: { data = [] },
+  userDevices: { err, data = [] },
   user,
   timestamp,
   handleUserChange,
@@ -31,16 +32,28 @@ const DataSourceContainer = ({
   const devices = dottie.get(data.find((entry) => entry.user === user), 'devices', []);
 
   return (
-    <DataSource
-      users={users}
-      devices={devices}
-      timestampStart={unixTimestampToDate(timestamp.start)}
-      timestampEnd={unixTimestampToDate(timestamp.end)}
-      onUserChange={handleUserChange}
-      onDeviceChange={handleDeviceChange}
-      onTimestampStartChange={handleTimestampStartChange}
-      onTimestampEndChange={handleTimestampEndChange}
-    />
+    <div>
+      {err && (
+        <Alert
+          size="beta"
+          type="error"
+          title="There was an error fetching users and devices."
+          message={err.message}
+          style={{ marginBottom: spacing.default }}
+        />
+      )}
+
+      <DataSource
+        users={users}
+        devices={devices}
+        timestampStart={unixTimestampToDate(timestamp.start)}
+        timestampEnd={unixTimestampToDate(timestamp.end)}
+        onUserChange={handleUserChange}
+        onDeviceChange={handleDeviceChange}
+        onTimestampStartChange={handleTimestampStartChange}
+        onTimestampEndChange={handleTimestampEndChange}
+      />
+    </div>
   );
 };
 
