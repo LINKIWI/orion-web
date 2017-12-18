@@ -18,6 +18,7 @@ class ControlPanelContainer extends Component {
 
     return (
       <Spacing
+        size="large"
         style={{
           maxHeight: isExpanded ? '100vh' : '25px',
           overflow: 'hidden',

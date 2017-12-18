@@ -75,7 +75,7 @@ export default class LocationParser {
       .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
       .map(({ latitude, longitude }) => ({
         position: [longitude, latitude],
-        radius: 6,
+        radius: 8,
         color: [3, 105, 150],
       }));
 
