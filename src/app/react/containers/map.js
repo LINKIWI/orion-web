@@ -57,10 +57,10 @@ class MapContainer extends Component {
     // passing through a thunk that is evaluated on every render within the map root.
     const layersThunk = () => [
       match(locationDisplayType, [
-        [LOCATION_DISPLAY_TYPE_DOTS, locationParser.getScatterplotLayer()],
-        [LOCATION_DISPLAY_TYPE_PATH, locationParser.getLineLayer()],
-        [LOCATION_DISPLAY_TYPE_HEATMAP, locationParser.getScreenGridLayer()],
-      ]),
+        [LOCATION_DISPLAY_TYPE_DOTS, () => locationParser.getScatterplotLayer()],
+        [LOCATION_DISPLAY_TYPE_PATH, () => locationParser.getLineLayer()],
+        [LOCATION_DISPLAY_TYPE_HEATMAP, () => locationParser.getScreenGridLayer()],
+      ])(),
     ].filter(Boolean);
 
     return (
