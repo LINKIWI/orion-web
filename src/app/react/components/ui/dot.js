@@ -13,7 +13,6 @@ export default class Dot extends Component {
     offset: PropTypes.number,
     size: PropTypes.number,
     style: PropTypes.object,
-    onMouseDown: PropTypes.func,
   };
 
   static defaultProps = {
@@ -21,7 +20,6 @@ export default class Dot extends Component {
     offset: 0,
     size: 16,
     style: {},
-    onMouseDown: () => {},
   };
 
   constructor(props) {

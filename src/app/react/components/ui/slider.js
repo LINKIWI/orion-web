@@ -36,35 +36,22 @@ export default class Slider extends Component {
 
   state = { isDragging: false };
 
-  componentDidMount() {
-    window.addEventListener('resize', this.onResize);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
-  }
-
-  onResize = () => {
-    // The relative horizontal coordinate of the slider dot changes when the window resizes.
-    if (this.ref) {
-      this.initialOffset = this.ref.getBoundingClientRect().left;
-    }
-  };
-
   setRef = (ref) => {
-    // Immediately after the component initially mounts, calculate its own horizontal distance to
-    // the boundary of the parent container. This value serves as a baseline for interpreting future
-    // positions of events triggered by a mousemove on the Slider container.
     this.ref = ref;
-    this.onResize();
   };
 
   handleMouseMove = (evt) => {
     const { width, min, max, onChange } = this.props;
     const { isDragging } = this.state;
 
+    if (!this.ref) {
+      return;
+    }
+
+    const initialOffset = this.ref.getBoundingClientRect().left;
+
     if (isDragging) {
-      const offset = evt.clientX - this.initialOffset;
+      const offset = evt.clientX - initialOffset;
       const percentage = offset / (width - DOT_DIAMETER);
 
       // Reject values caused by dragging the mouse too far to the left or right of the slider
