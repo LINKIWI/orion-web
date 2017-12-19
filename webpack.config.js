@@ -6,8 +6,17 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
+dotenv.config();
+
+// Array of known environment variables whose value may be injected into the frontend as a key in
+// process.env, allowing Node-like environment variable access in client-side logic.
+const BUILD_ENV_VARS = [
+  'NODE_ENV',
+  'MAPBOX_API_TOKEN',
+  'ORION_SERVER_URL',
+];
+
 const isProduction = process.env.NODE_ENV === 'production';
-const env = dotenv.load().parsed || {};
 
 module.exports = {
   entry: {
@@ -48,9 +57,10 @@ module.exports = {
     new HtmlWebpackInlineSourcePlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        ...isProduction && { NODE_ENV: JSON.stringify('production') },
-        ...Object.keys(env).reduce((acc, key) =>
-          Object.assign({}, acc, { [key]: JSON.stringify(env[key]) }), {}),
+        ...BUILD_ENV_VARS
+          .filter((key) => key in process.env)
+          .reduce((acc, key) =>
+            Object.assign({}, acc, { [key]: JSON.stringify(process.env[key]) }), {}),
       },
     }),
     isProduction && new webpack.LoaderOptionsPlugin({
