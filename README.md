@@ -1,103 +1,56 @@
-# react-static-boilerplate
+![Orion](https://static.kevinlin.info/orion-banner.png)
 
-This project provides base configuration and boilerplate for a simple, ES6/JSX, static, client-only React SPA.
+# orion-web
 
-## Instructions
+`orion-web` is a web visualization frontend designed to accompany [`orion-server`](https://github.com/LINKIWI/orion-server).
 
-### Containers and components
+![orion-web-screenshot-1](https://static.kevinlin.info/orion-web-screenshot-1.png)
 
-Ideally, components should be dumb and presentational. Containers may contain isolated state, or may retrieve it from the global Redux store (ensuring to pull state up as much as possible). Container children may include other containers and components, but a container should never be the child of a component.
+![orion-web-screenshot-2](https://static.kevinlin.info/orion-web-screenshot-2.png)
 
-Components are in `app/react/components`. Containers are in `app/react/containers`.
+![orion-web-screenshot-3](https://static.kevinlin.info/orion-web-screenshot-3.png)
 
-### Adding a new Redux action/reducer
+## Overview
 
-Add a new action with factory functions for serialized action objects:
+The Orion platform consists of `orion-server` and `orion-web`. The former is a server-side application for recording location events reported by OwnTracks mobile clients. The latter is a web application for visualizing data collected by `orion-server`.
 
-```diff
-diff --git a/action.js b/action.js
-new file mode 100644
-index 0000000..da7e463
---- /dev/null
-+++ b/action.js
-@@ -0,0 +1,16 @@
-+export const ACTION_NAME = 'ACTION_NAME';
-+
-+export const actionCreator = (param) => ({
-+  type: ACTION_NAME,
-+  payload: { param },
-+});
-```
+The web interface builds on the functionality provided by the official [OwnTracks Recorder](https://github.com/owntracks/recorder), providing more control over how data points are visualized on a map.
 
-Add a corresponding reducer with an initial state for that reducer namespace and a mapping from action types to reduction functions:
+## Features
 
-```diff
-diff --git a/reducer.js b/reducer.js
-new file mode 100644
-index 0000000..4cf0218
---- /dev/null
-+++ b/reducer.js
-@@ -0,0 +1,23 @@
-+import { ACTION_NAME } from 'app/redux/actions/action';
-+import createReducer from 'app/redux/reducers/create-reducer';
-+
-+const initialState = {
-+  state: false,
-+};
-+
-+const setTrue = (state) => ({
-+  ...state,
-+  state: true,
-+});
-+
-+const reducerMapping = {
-+  [ACTION_NAME]: setTrue,
-+};
-+
-+export default createReducer(reducerMapping, initialState);
-```
+* View data recorded for any user/device combination
+* Filter points based on a time interval
+* Filter points below an interactively specified accuracy
+* Display points as dots (raw reported locations), a path (time-weighted travel path between location reports), or a heatmap (spatially-weighted density of location reports)
 
-Add the namespace to `app/redux/reducers/index.js`:
+## Installation
 
-```diff
-diff --git a/src/app/redux/reducers/index.js b/src/app/redux/reducers/index.js
-index f6ce50b..1aadb44 100644
---- a/src/app/redux/reducers/index.js
-+++ b/src/app/redux/reducers/index.js
-@@ -1,5 +1,8 @@
- import { combineReducers } from 'redux';
-+import reducerReducer from 'app/redux/reducers/reducer';
+You'll need any recent version of Node, `npm`, and a working deployment of [`orion-server`](https://github.com/LINKIWI/orion-server).
 
--const reducer = combineReducers({});
-+const reducer = combineReducers({
-+  reducer: reducerReducer,
-+});
+First and foremost, create a [MapBox API token](https://www.mapbox.com/help/how-access-tokens-work/) for your deployment. This is used to render the interactive map.
 
- export default reducer;
-```
-
-## Usage
-
-### Forking a new project
+Get the source code and bootstrap the application:
 
 ```bash
-$ git clone git@git.kevinlin.info:personal/react-static-boilerplate.git my-project
-$ cd my-project
-$ rm -rf .git && git init
-```
-
-### Development
-
-```bash
+$ git clone https://github.com/LINKIWI/orion-web.git
+$ cd orion-web
 $ npm install
-$ npm run start
-# This starts webpack-dev-server on port 8080.
-# Changes to source are live-reloaded.
 ```
 
-### Deployment
+Build the frontend. If `orion-web` will run at the same URL as `orion-server`, you should omit `ORION_SERVER_URL`. Otherwise, set `ORION_SERVER_URL` to the base URL where `orion-server` is running (e.g. `http://orion.example.com`).
 
 ```bash
-$ NODE_ENV=production npm run build
-# This creates a minified HTML file with all JS inlined at dist/index.html.
+$ NODE_ENV=production MAPBOX_API_TOKEN=<your Mapbox API token> ORION_SERVER_URL=<base URL where the server is hosted> npm run build
 ```
+
+That's it! This produces a completely self-contained static frontend file at `dist/index.html`. You can deploy this however you see fit. For example, if you followed the deployment instructions in the README for `orion-server`, you can use an `Alias` directive to map all non-API routes for the Orion virtual host to this static file.
+
+## FAQ
+
+#### How to interpret the path colors?
+
+The colors are time-weighted on a gradient between 100% red and 100% blue based on all location data points selected given the current filter options (namely, the time interval and accuracy filter). The earliest points (by timestamp) are red. The latest points (by timestamp) are blue. Intermediary points are a combination of red and blue based on the ratio of the distance to the earliest timestamp to the total number of seconds contained within the time interval of eligible data points.
+
+#### It looks kind of like Uber
+
+Yes, it does.
