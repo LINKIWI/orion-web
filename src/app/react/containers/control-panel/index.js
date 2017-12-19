@@ -21,7 +21,7 @@ class ControlPanelContainer extends Component {
         size="large"
         style={{
           backgroundColor: 'white',
-          maxHeight: isExpanded ? '100vh' : '25px',
+          maxHeight: isExpanded ? '100vh' : '40px',
           opacity: isExpanded ? 1 : 0.5,
           overflow: 'hidden',
           transition: 'all 0.4s ease',
