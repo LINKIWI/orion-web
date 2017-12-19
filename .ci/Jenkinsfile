@@ -23,6 +23,9 @@ pipeline {
         stage('Test') {
             parallel {
                 stage('Build') {
+                    environment {
+                        NODE_ENV = 'production'
+                    }
                     steps {
                         sh 'npm run build'
                     }
@@ -43,6 +46,7 @@ pipeline {
 
     post {
         always {
+            archive 'dist/index.html'
             deleteDir()
         }
     }
