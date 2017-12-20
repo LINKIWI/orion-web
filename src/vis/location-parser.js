@@ -126,7 +126,7 @@ export default class LocationParser {
           sourcePosition: lastEntry.targetPosition,
           targetPosition: [longitude, latitude],
           // Start of the path is red; end of the path is blue
-          color: [255 * (1 - colorRatio), 128 * colorRatio, 255 * colorRatio],
+          color: [255 * (1 - colorRatio), 160 * colorRatio, 255 * colorRatio],
         };
         return [...acc, entry];
       }, [firstPosition]);
@@ -134,7 +134,7 @@ export default class LocationParser {
     return new LineLayer({
       id: 'location-line',
       data: lineData,
-      strokeWidth: 2,
+      strokeWidth: 3,
     });
   }
 
