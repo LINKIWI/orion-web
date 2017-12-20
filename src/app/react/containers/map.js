@@ -7,6 +7,7 @@ import {
   LOCATION_DISPLAY_TYPE_PATH,
   LOCATION_DISPLAY_TYPE_HEATMAP,
 } from 'app/redux/reducers/options';
+import { setViewport } from 'app/redux/actions/map';
 import MapRoot from 'app/react/components/map';
 import LocationParser from 'vis/location-parser';
 
@@ -23,6 +24,8 @@ class MapContainer extends Component {
       LOCATION_DISPLAY_TYPE_PATH,
       LOCATION_DISPLAY_TYPE_HEATMAP,
     ]).isRequired,
+    viewport: PropTypes.object.isRequired,
+    handleViewportChange: PropTypes.func.isRequired,
   };
 
   state = { containerWidth: null, containerHeight: null };
@@ -42,7 +45,13 @@ class MapContainer extends Component {
   });
 
   render() {
-    const { data, accuracyThreshold, locationDisplayType } = this.props;
+    const {
+      data,
+      accuracyThreshold,
+      locationDisplayType,
+      viewport,
+      handleViewportChange,
+    } = this.props;
     const { containerWidth, containerHeight } = this.state;
 
     if (!containerWidth || !containerHeight) {
@@ -50,7 +59,6 @@ class MapContainer extends Component {
     }
 
     const locationParser = new LocationParser(data, accuracyThreshold);
-    const { latitude, longitude } = locationParser.getAverageCoordinate();
 
     // Changes in viewport may require re-rendering the map layers. Evaluating this here would cause
     // the layer to remain static despite changes in viewport. Instead, we'll delay evaluation by
@@ -68,18 +76,24 @@ class MapContainer extends Component {
         <MapRoot
           width={containerWidth}
           height={containerHeight}
+          viewport={viewport}
+          onViewportChange={handleViewportChange}
           layersThunk={layersThunk}
-          {...latitude && longitude && { viewport: { latitude, longitude, zoom: 15 } }}
         />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ location, filters, options }) => ({
+const mapStateToProps = ({ location, filters, options, map }) => ({
   data: location.data,
   accuracyThreshold: filters.accuracyThreshold,
   locationDisplayType: options.locationDisplayType,
+  viewport: map.viewport,
 });
 
-export default connect(mapStateToProps)(MapContainer);
+const mapDispatchToProps = (dispatch) => ({
+  handleViewportChange: (viewport) => dispatch(setViewport(viewport)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);

@@ -144,20 +144,6 @@ export default class LocationParser {
   }
 
   /**
-   * Calculate the average coordinate in the current location data.
-   *
-   * @return {Object} Object containing properties latitude and longitude describing the average
-   *                  coordinate in the input data.
-   */
-  @withDefinedData({})
-  getAverageCoordinate() {
-    const avgLat = this.data.map(({ latitude }) => latitude).reduce((a, b) => a + b, 0);
-    const avgLon = this.data.map(({ longitude }) => longitude).reduce((a, b) => a + b, 0);
-
-    return { latitude: avgLat / this.data.length, longitude: avgLon / this.data.length };
-  }
-
-  /**
    * Calculate the minimum timestamp among all data points that are currently eliglble.
    *
    * @return {number} The minimum Unix timestamp in the filtered input data.
