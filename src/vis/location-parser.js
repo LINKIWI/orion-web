@@ -76,7 +76,7 @@ export default class LocationParser {
       .map(({ latitude, longitude }) => ({
         position: [longitude, latitude],
         icon: 'marker',
-        size: 24,
+        size: 18,
       }));
 
     const iconMapping = {
