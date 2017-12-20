@@ -1,4 +1,5 @@
-import { LineLayer, ScatterplotLayer, ScreenGridLayer } from 'deck.gl';
+import { IconLayer, LineLayer, ScreenGridLayer } from 'deck.gl';
+import marker from 'resources/img/marker';
 
 /**
  * Decorator for transparently caching the return value of a method. The initial return value is
@@ -65,22 +66,34 @@ export default class LocationParser {
   }
 
   /**
-   * Create a ScatterplotLayer (dots) from the input data.
+   * Create an IconLayer (dots) from the input data.
    */
   @withDefinedData()
   @cacheable('dots')
-  getScatterplotLayer() {
-    const scatterplotData = this.data
+  getIconLayer() {
+    const iconData = this.data
       .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
       .map(({ latitude, longitude }) => ({
         position: [longitude, latitude],
-        radius: 8,
-        color: [3, 105, 150],
+        icon: 'marker',
+        size: 24,
       }));
 
-    return new ScatterplotLayer({
-      id: 'location-scatterplot',
-      data: scatterplotData,
+    const iconMapping = {
+      marker: {
+        x: 0,
+        y: 0,
+        width: 20,
+        height: 20,
+        mask: false,
+      },
+    };
+
+    return new IconLayer({
+      id: 'location-icon',
+      data: iconData,
+      iconAtlas: marker,
+      iconMapping,
     });
   }
 
