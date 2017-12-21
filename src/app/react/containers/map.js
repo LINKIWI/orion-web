@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import match from 'functional-match';
@@ -9,7 +10,15 @@ import {
 } from 'app/redux/reducers/options';
 import { setViewport } from 'app/redux/actions/map';
 import MapRoot from 'app/react/components/map';
+import withMotion from 'app/react/hoc/with-motion';
 import LocationParser from 'vis/location-parser';
+
+// Parameters passed to react-motion's spring motion style factory.
+const MAP_ANIMATION_STYLE = { stiffness: 120, damping: 25 };
+// Minimum required latitude/longitude delta to trigger an animation.
+const LATERAL_ANIMATION_THRESHOLD = 3;
+// Minimum required zoom level delta to trigger an animation.
+const ZOOM_ANIMATION_THRESHOLD = 2;
 
 /**
  * Wrapper over the primary map component to abstract out logic of translating the location data
@@ -26,6 +35,9 @@ class MapContainer extends Component {
     ]).isRequired,
     viewport: PropTypes.object.isRequired,
     handleViewportChange: PropTypes.func.isRequired,
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+    zoom: PropTypes.number.isRequired,
   };
 
   state = { containerWidth: null, containerHeight: null };
@@ -51,6 +63,10 @@ class MapContainer extends Component {
       locationDisplayType,
       viewport,
       handleViewportChange,
+      // Motion props
+      latitude,
+      longitude,
+      zoom,
     } = this.props;
     const { containerWidth, containerHeight } = this.state;
 
@@ -76,7 +92,12 @@ class MapContainer extends Component {
         <MapRoot
           width={containerWidth}
           height={containerHeight}
-          viewport={viewport}
+          viewport={{
+            ...viewport,
+            latitude,
+            longitude,
+            zoom,
+          }}
           onViewportChange={handleViewportChange}
           layersThunk={layersThunk}
         />
@@ -96,4 +117,19 @@ const mapDispatchToProps = (dispatch) => ({
   handleViewportChange: (viewport) => dispatch(setViewport(viewport)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  withMotion(({ viewport: { latitude, longitude, zoom } }) => ({
+    animationStyle: MAP_ANIMATION_STYLE,
+    animationProperties: { latitude, longitude, zoom },
+    threshold: ({
+      viewport: {
+        latitude: nextLatitude,
+        longitude: nextLongitude,
+        zoom: nextZoom,
+      },
+    }) => Math.abs(nextLatitude - latitude) > LATERAL_ANIMATION_THRESHOLD ||
+      Math.abs(nextLongitude - longitude) > LATERAL_ANIMATION_THRESHOLD ||
+      Math.abs(nextZoom - zoom) > ZOOM_ANIMATION_THRESHOLD,
+  })),
+)(MapContainer);
