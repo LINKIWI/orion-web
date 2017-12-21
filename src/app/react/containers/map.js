@@ -14,7 +14,7 @@ import withMotion from 'app/react/hoc/with-motion';
 import LocationParser from 'vis/location-parser';
 
 // Parameters passed to react-motion's spring motion style factory.
-const MAP_ANIMATION_STYLE = { stiffness: 120, damping: 25 };
+const MAP_ANIMATION_STYLE = { stiffness: 150, damping: 35 };
 
 /**
  * Wrapper over the primary map component to abstract out logic of translating the location data
