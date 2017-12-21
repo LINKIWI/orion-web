@@ -15,10 +15,6 @@ import LocationParser from 'vis/location-parser';
 
 // Parameters passed to react-motion's spring motion style factory.
 const MAP_ANIMATION_STYLE = { stiffness: 120, damping: 25 };
-// Minimum required latitude/longitude delta to trigger an animation.
-const LATERAL_ANIMATION_THRESHOLD = 3;
-// Minimum required zoom level delta to trigger an animation.
-const ZOOM_ANIMATION_THRESHOLD = 2;
 
 /**
  * Wrapper over the primary map component to abstract out logic of translating the location data
@@ -128,14 +124,5 @@ export default compose(
   withMotion(({ viewport: { latitude, longitude, zoom } }) => ({
     animationStyle: MAP_ANIMATION_STYLE,
     animationProperties: { latitude, longitude, zoom },
-    threshold: ({
-      viewport: {
-        latitude: nextLatitude,
-        longitude: nextLongitude,
-        zoom: nextZoom,
-      },
-    }) => Math.abs(nextLatitude - latitude) > LATERAL_ANIMATION_THRESHOLD ||
-      Math.abs(nextLongitude - longitude) > LATERAL_ANIMATION_THRESHOLD ||
-      Math.abs(nextZoom - zoom) > ZOOM_ANIMATION_THRESHOLD,
   })),
 )(MapContainer);

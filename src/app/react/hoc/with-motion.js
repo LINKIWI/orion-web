@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
+import { setAnimation } from 'app/redux/actions/map';
 
 /**
  * Higher-order component for abstracting out adding transition motion to props of a component.
@@ -12,40 +15,41 @@ import { Motion, spring } from 'react-motion';
  * @returns {Function} Function taking a component to wrap, which returns a component instance
  *                     containing automatic props animation.
  */
-const withMotion = (opts) => (WrappedComponent) =>
-  class WithMotionHOC extends Component {
-    state = { shouldAnimate: false };
+const withMotion = (opts) => (WrappedComponent) => {
+  const WithMotionHOC = (props) => {
+    const { animationProperties, animationStyle } = opts(props);
 
-    componentWillReceiveProps(nextProps) {
-      const { threshold } = opts(this.props);
+    const style = Object.keys(animationProperties)
+      .reduce((acc, key) =>
+        Object.assign({}, acc, { [key]: spring(animationProperties[key], animationStyle) }), {});
 
-      if (threshold(nextProps)) {
-        this.setState({ shouldAnimate: true });
-      }
-    }
-
-    handleRest = () => this.setState({ shouldAnimate: false });
-
-    render() {
-      const { animationProperties, animationStyle } = opts(this.props);
-      const { shouldAnimate } = this.state;
-
-      const style = Object.keys(animationProperties)
-        .reduce((acc, key) =>
-          Object.assign({}, acc, { [key]: spring(animationProperties[key], animationStyle) }), {});
-
-      return (
-        <Motion style={style} onRest={this.handleRest}>
-          {(motionProps) => (
-            <WrappedComponent
-              {...this.props}
-              {...animationProperties}
-              {...shouldAnimate && motionProps}
-            />
-          )}
-        </Motion>
-      );
-    }
+    return (
+      <Motion style={style} onRest={props.disableAnimation}>
+        {(motionProps) => (
+          <WrappedComponent
+            {...props}
+            {...animationProperties}
+            {...props.animation && motionProps}
+          />
+        )}
+      </Motion>
+    );
   };
+
+  WithMotionHOC.propTypes = {
+    animation: PropTypes.bool.isRequired,
+    disableAnimation: PropTypes.func.isRequired,
+  };
+
+  const mapStateToProps = ({ map }) => ({
+    animation: map.animation,
+  });
+
+  const mapDispatchToProps = (dispatch) => ({
+    disableAnimation: () => dispatch(setAnimation(false)),
+  });
+
+  return connect(mapStateToProps, mapDispatchToProps)(WithMotionHOC);
+};
 
 export default withMotion;
