@@ -47,6 +47,14 @@ class MapContainer extends Component {
     this.onResize();
   }
 
+  componentWillReceiveProps({ data: nextData, accuracyThreshold: nextAccuracyThreshold }) {
+    const { data, accuracyThreshold } = this.props;
+
+    if (data !== nextData || accuracyThreshold !== nextAccuracyThreshold) {
+      this.locationParser = new LocationParser(nextData, nextAccuracyThreshold);
+    }
+  }
+
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
   }
@@ -56,10 +64,10 @@ class MapContainer extends Component {
     containerHeight: window.innerHeight,
   });
 
+  locationParser = new LocationParser();
+
   render() {
     const {
-      data,
-      accuracyThreshold,
       locationDisplayType,
       viewport,
       handleViewportChange,
@@ -74,16 +82,14 @@ class MapContainer extends Component {
       return null;
     }
 
-    const locationParser = new LocationParser(data, accuracyThreshold);
-
     // Changes in viewport may require re-rendering the map layers. Evaluating this here would cause
     // the layer to remain static despite changes in viewport. Instead, we'll delay evaluation by
     // passing through a thunk that is evaluated on every render within the map root.
     const layersThunk = () => [
       match(locationDisplayType, [
-        [LOCATION_DISPLAY_TYPE_DOTS, () => locationParser.getIconLayer()],
-        [LOCATION_DISPLAY_TYPE_PATH, () => locationParser.getLineLayer()],
-        [LOCATION_DISPLAY_TYPE_HEATMAP, () => locationParser.getScreenGridLayer()],
+        [LOCATION_DISPLAY_TYPE_DOTS, () => this.locationParser.getIconLayer()],
+        [LOCATION_DISPLAY_TYPE_PATH, () => this.locationParser.getLineLayer()],
+        [LOCATION_DISPLAY_TYPE_HEATMAP, () => this.locationParser.getScreenGridLayer()],
       ])(),
     ].filter(Boolean);
 

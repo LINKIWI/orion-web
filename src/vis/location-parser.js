@@ -60,8 +60,8 @@ export default class LocationParser {
    * @param {Array} data Array of location data objects returned from the API.
    * @param {number} accuracyThreshold Maximum tolerable accuracy value for displayed points.
    */
-  constructor(data, accuracyThreshold) {
-    this.data = data || [];
+  constructor(data = [], accuracyThreshold = Infinity) {
+    this.data = data;
     this.accuracyThreshold = accuracyThreshold;
   }
 
