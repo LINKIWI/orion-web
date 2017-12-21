@@ -96,10 +96,10 @@ class MapContainer extends Component {
     return (
       <div style={{ position: 'absolute' }}>
         <MapRoot
-          width={containerWidth}
-          height={containerHeight}
           viewport={{
             ...viewport,
+            width: containerWidth,
+            height: containerHeight,
             latitude,
             longitude,
             zoom,

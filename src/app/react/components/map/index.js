@@ -11,30 +11,26 @@ export default class MapRoot extends Component {
   static propTypes = {
     viewport: PropTypes.object.isRequired,
     layersThunk: PropTypes.func.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
     onViewportChange: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
-    const { width, height, viewport, onViewportChange } = this.props;
+    const { viewport, onViewportChange } = this.props;
 
     // During state initialization, the store has no knowledge of the viewport dimensions since the
     // map had not been rendered yet. Immediately after rendering the map, update the viewport state
     // with the now-known dimensions.
-    onViewportChange({ ...viewport, width, height });
+    onViewportChange(viewport);
   }
 
   render() {
-    const { layersThunk, width, height, viewport, onViewportChange } = this.props;
+    const { layersThunk, viewport, onViewportChange } = this.props;
 
     return (
       <MapGL
         mapStyle="mapbox://styles/mapbox/dark-v9"
         mapboxApiAccessToken={process.env.MAPBOX_API_TOKEN}
         onViewportChange={onViewportChange}
-        width={width}
-        height={height}
         {...viewport}
       >
         <div style={{ bottom: 0, position: 'absolute', right: 0 }}>
@@ -48,8 +44,6 @@ export default class MapRoot extends Component {
         <DeckGL
           // Lazy evaluation - need to ensure that this is updated on re-renders.
           layers={layersThunk()}
-          width={width}
-          height={height}
           {...viewport}
         />
       </MapGL>
