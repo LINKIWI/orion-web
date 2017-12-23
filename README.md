@@ -45,12 +45,20 @@ $ NODE_ENV=production MAPBOX_API_TOKEN=<your Mapbox API token> ORION_SERVER_URL=
 
 That's it! This produces a completely self-contained static frontend file at `dist/index.html`. You can deploy this however you see fit. For example, if you followed the deployment instructions in the README for `orion-server`, you can use an `Alias` directive to map all non-API routes for the Orion virtual host to this static file.
 
-## FAQ
+## Display modes
 
-#### How to interpret the path colors?
+#### Dots
 
-The colors are time-weighted on a gradient between 100% red and 100% blue based on all location data points selected given the current filter options (namely, the time interval and accuracy filter). The earliest points (by timestamp) are red. The latest points (by timestamp) are blue. Intermediary points are a combination of red and blue based on the ratio of the distance to the earliest timestamp to the total number of seconds contained within the time interval of eligible data points.
+Dots mode displays all reported locations matching the filtering criteria as constant-sized dots on the map.
 
-#### It looks kind of like Uber
+#### Path
 
-Yes, it does.
+Path mode displays a time-sequential travel path from point to point, connecting points if one follows directly after the other in time.
+
+The path colors are time-weighted on a gradient between 100% red and 100% blue based on all location data points selected given the current filter options (namely, the time interval and accuracy filter). The earliest points (by timestamp) are red. The latest points (by timestamp) are blue. Intermediary points are a combination of red and blue based on the ratio of the distance to the earliest timestamp to the total number of seconds contained within the time interval of eligible data points.
+
+#### Heatmap
+
+Heatmap mode displays locations as a 2D histogram. Areas containing a high density of points are colored with the most opaqueness; areas containing the lowest density of points are colored with the least opaqueness (as far as fully transparent if no locations are reported in that area).
+
+The range of opacity is scaled based on the points that are currently visible in the viewport. If you spend a lot of time in a single area, you might only see a single, opaque square. You might be able to see a greater diversity of opacities if you move the map such that that single location is outside of the viewport.
