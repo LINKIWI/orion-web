@@ -1,14 +1,14 @@
-![Orion](https://static.kevinlin.info/orion-banner.png)
+![Orion](https://static.kevinlin.info/files/orion-banner.png)
 
 # orion-web
 
 `orion-web` is a web visualization frontend designed to accompany [`orion-server`](https://github.com/LINKIWI/orion-server).
 
-![orion-web-screenshot-1](https://static.kevinlin.info/orion-web-screenshot-1.png)
+![orion-web-screenshot-1](https://static.kevinlin.info/files/orion-web-screenshot-1.png)
 
-![orion-web-screenshot-2](https://static.kevinlin.info/orion-web-screenshot-2.png)
+![orion-web-screenshot-2](https://static.kevinlin.info/files/orion-web-screenshot-2.png)
 
-![orion-web-screenshot-3](https://static.kevinlin.info/orion-web-screenshot-3.png)
+![orion-web-screenshot-3](https://static.kevinlin.info/files/orion-web-screenshot-3.png)
 
 ## Overview
 
@@ -27,7 +27,7 @@ The web interface builds on the functionality provided by the official [OwnTrack
 
 You'll need any recent version of Node, `npm`, and a working deployment of [`orion-server`](https://github.com/LINKIWI/orion-server).
 
-First and foremost, create a [MapBox API token](https://www.mapbox.com/help/how-access-tokens-work/) for your deployment. This is used to render the interactive map.
+First and foremost, create a [Mapbox API token](https://www.mapbox.com/help/how-access-tokens-work/) for your deployment. This is used to render the interactive map.
 
 Get the source code and bootstrap the application:
 
