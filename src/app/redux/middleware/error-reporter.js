@@ -9,12 +9,14 @@ const errorReporter = (store) => (next) => (action) => {
   try {
     return next(action);
   } catch (err) {
-    Raven.captureException(err, {
-      extra: {
-        action,
-        store: store.getState(),
-      },
-    });
+    if (process.env.NODE_ENV === 'production') {
+      Raven.captureException(err, {
+        extra: {
+          action,
+          store: store.getState(),
+        },
+      });
+    }
 
     throw err;
   }

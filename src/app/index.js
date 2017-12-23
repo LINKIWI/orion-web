@@ -16,8 +16,6 @@ export default class App extends Component {
   constructor(props) {
     super(props);
 
-    Raven.config(sentry.dsn).install();
-
     bootstrap({
       primary: {
         regular: karlaRegular,
@@ -30,6 +28,7 @@ export default class App extends Component {
     });
 
     if (process.env.NODE_ENV === 'production') {
+      Raven.config(sentry.dsn).install();
       global.luma.log.priority = 0;
       global.deck.log.priority = 0;
     }
