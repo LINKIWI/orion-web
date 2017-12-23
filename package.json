@@ -37,6 +37,7 @@
     "preact": "^8.2.7",
     "preact-compat": "^3.17.0",
     "prop-types": "^15.6.0",
+    "raven-js": "^3.21.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-elemental": "^0.0.7",

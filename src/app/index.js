@@ -7,12 +7,16 @@ import karlaBold from 'react-elemental-fonts/karla-bold';
 import karlaRegular from 'react-elemental-fonts/karla-regular';
 import sourceCodeProMedium from 'react-elemental-fonts/source-code-pro-medium';
 import sourceCodeProRegular from 'react-elemental-fonts/source-code-pro-regular';
+import Raven from 'raven-js';
 import routes from 'app/react/routes';
 import store from 'app/redux/store';
+import sentry from 'resources/data/sentry';
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+
+    Raven.config(sentry.dsn).install();
 
     bootstrap({
       primary: {
