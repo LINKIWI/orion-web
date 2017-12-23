@@ -63,7 +63,10 @@ export default class Slider extends Component {
     }
   };
 
-  handleClickStateChange = (isDragging) => () => this.setState({ isDragging });
+  handleClickStateChange = (isDragging) => (evt) => {
+    evt.persist();  // Allow event reuse
+    this.setState({ isDragging }, () => this.handleMouseMove(evt));
+  };
 
   render() {
     const { width, min, max, value, formatter } = this.props;
