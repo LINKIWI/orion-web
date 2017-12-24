@@ -10,7 +10,7 @@ import { fitMapBounds } from 'vis/coordinate';
  */
 const fetchLocationsMiddleware = (store) => {
   const {
-    dataSource: { user, device, timestamp },
+    dataSource: { user, device },
     filters: { accuracyThreshold },
     map: { viewport },
   } = store.getState();
@@ -22,18 +22,13 @@ const fetchLocationsMiddleware = (store) => {
 
   const opts = {
     endpoint: '/api/locations',
-    method: 'POST',
-    data: {
-      user,
-      device,
-      timestamp_start: timestamp.start,
-      timestamp_end: timestamp.end,
-      limit: null,
-    },
+    method: 'GET',
+    data: {},
   };
 
   store.dispatch(startProgress());
-  resource(opts, (err, json = []) => {
+  resource(opts, (err, raw = []) => {
+    const json = raw.filter((entry) => entry.user === user);
     if (json.length) {
       const {
         center: [longitude, latitude],
