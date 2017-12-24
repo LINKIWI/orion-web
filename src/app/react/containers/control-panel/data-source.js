@@ -124,6 +124,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   withResource({
     key: 'userDevices',
-    endpoint: '/api/users',
+    endpoint: 'api/users',
   }),
 )(DataSourceContainer);

@@ -21,7 +21,7 @@ const fetchLocationsMiddleware = (store) => {
   }
 
   const opts = {
-    endpoint: '/api/locations',
+    endpoint: 'api/locations',
     method: 'GET',
     data: {},
   };
