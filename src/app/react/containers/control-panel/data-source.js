@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { spacing, Alert } from 'react-elemental';
+import { Alert, Spacing } from 'react-elemental';
 import dottie from 'dottie';
 import withResource from 'app/react/hoc/with-resource';
 import DataSource from 'app/react/components/control-panel/data-source';
@@ -34,13 +34,14 @@ const DataSourceContainer = ({
   return (
     <div>
       {err && (
-        <Alert
-          size="beta"
-          type="error"
-          title="There was an error fetching users and devices."
-          message={err.message}
-          style={{ marginBottom: spacing.default }}
-        />
+        <Spacing bottom>
+          <Alert
+            size="beta"
+            type="error"
+            title="There was an error fetching users and devices."
+            message={err.message}
+          />
+        </Spacing>
       )}
 
       <DataSource
