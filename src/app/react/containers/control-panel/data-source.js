@@ -44,14 +44,15 @@ const DataSourceContainer = ({
         </Spacing>
       )}
 
-      <Alert
-        size="beta"
-        type="warn"
-        title="Orion demo"
-        message={'This is a demo instance of Orion, using static sample location data. ' +
-        'For this reason, the accuracy filter and timestamp controls will not work.'}
-        style={{ marginBottom: spacing.default }}
-      />
+      <Spacing bottom>
+        <Alert
+          size="beta"
+          type="warn"
+          title="Orion demo"
+          message={'This is a demo instance of Orion, using static sample location data. ' +
+          'For this reason, the accuracy filter and timestamp controls will not work.'}
+        />
+      </Spacing>
 
       <DataSource
         users={users}
