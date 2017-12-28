@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Spacing, Text } from 'react-elemental';
-import Tabs from 'app/react/components/ui/tabs';
+import { Spacing, Tabs, Text } from 'react-elemental';
 import {
   LOCATION_DISPLAY_TYPE_DOTS,
   LOCATION_DISPLAY_TYPE_PATH,
@@ -27,11 +26,11 @@ const Options = ({ locationDisplayType, onLocationDisplayTypeChange }) => (
 
     <Tabs
       onChange={onLocationDisplayTypeChange}
-      selected={locationDisplayType}
+      value={locationDisplayType}
       options={[
-        { value: 'Dots', label: LOCATION_DISPLAY_TYPE_DOTS },
-        { value: 'Path', label: LOCATION_DISPLAY_TYPE_PATH },
-        { value: 'Heatmap', label: LOCATION_DISPLAY_TYPE_HEATMAP },
+        { value: LOCATION_DISPLAY_TYPE_DOTS, label: 'Dots' },
+        { value: LOCATION_DISPLAY_TYPE_PATH, label: 'Path' },
+        { value: LOCATION_DISPLAY_TYPE_HEATMAP, label: 'Heatmap' },
       ]}
     />
   </div>
