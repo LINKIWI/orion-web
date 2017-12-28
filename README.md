@@ -4,6 +4,8 @@
 
 `orion-web` is a web visualization frontend designed to accompany [`orion-server`](https://github.com/LINKIWI/orion-server).
 
+[**Live demo**](https://linkiwi.github.io/orion-web/) using sample location data
+
 ![orion-web-screenshot-1](https://static.kevinlin.info/files/orion-web-screenshot-1.png)
 
 ![orion-web-screenshot-2](https://static.kevinlin.info/files/orion-web-screenshot-2.png)
