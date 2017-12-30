@@ -23,6 +23,7 @@ const DataSourceContainer = ({
   userDevices: { err, data = [] },
   user,
   timestamp,
+  fieldWidth,
   handleUserChange,
   handleDeviceChange,
   handleTimestampStartChange,
@@ -49,6 +50,7 @@ const DataSourceContainer = ({
         devices={devices}
         timestampStart={unixTimestampToDate(timestamp.start)}
         timestampEnd={unixTimestampToDate(timestamp.end)}
+        fieldWidth={fieldWidth}
         onUserChange={handleUserChange}
         onDeviceChange={handleDeviceChange}
         onTimestampStartChange={handleTimestampStartChange}
@@ -67,6 +69,7 @@ DataSourceContainer.propTypes = {
     start: PropTypes.number.isRequired,
     end: PropTypes.number.isRequired,
   }).isRequired,
+  fieldWidth: PropTypes.number.isRequired,
   handleUserChange: PropTypes.func.isRequired,
   handleDeviceChange: PropTypes.func.isRequired,
   handleTimestampStartChange: PropTypes.func.isRequired,
@@ -77,7 +80,8 @@ DataSourceContainer.defaultProps = {
   user: null,
 };
 
-const mapStateToProps = ({ dataSource }) => ({
+const mapStateToProps = ({ context, dataSource }) => ({
+  fieldWidth: context.isCompact ? (context.width - 140) / 2 : 200,
   user: dataSource.user,
   timestamp: dataSource.timestamp,
 });
