@@ -8,9 +8,9 @@ import MapContainer from 'app/react/containers/map';
 import orionFavicon from 'resources/img/favicon';
 
 /**
- * Application root container.
+ * Main Orion interface container.
  */
-const RootContainer = () => (
+const OrionContainer = () => (
   <div>
     <Helmet>
       <title>Orion</title>
@@ -29,4 +29,4 @@ const RootContainer = () => (
   </div>
 );
 
-export default RootContainer;
+export default OrionContainer;
