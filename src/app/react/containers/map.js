@@ -11,7 +11,6 @@ import {
 import { setViewport } from 'app/redux/actions/map';
 import MapRoot from 'app/react/components/map';
 import withMotion from 'app/react/hoc/with-motion';
-import withWindowDimensions from 'app/react/hoc/with-window-dimensions';
 import LocationParser from 'vis/location-parser';
 
 // Parameters passed to react-motion's spring motion style factory.
@@ -93,7 +92,9 @@ class MapContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ location, filters, options, map }) => ({
+const mapStateToProps = ({ context, location, filters, options, map }) => ({
+  width: context.width,
+  height: context.height,
   data: location.data,
   accuracyThreshold: filters.accuracyThreshold,
   locationDisplayType: options.locationDisplayType,
@@ -110,5 +111,4 @@ export default compose(
     animationStyle: MAP_ANIMATION_STYLE,
     animationProperties: { latitude, longitude, zoom },
   })),
-  withWindowDimensions,
 )(MapContainer);
