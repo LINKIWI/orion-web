@@ -7,9 +7,15 @@ import Logo from 'app/react/components/logo';
 /**
  * Control panel header exposing ability to collapse the entire panel.
  */
-const Header = ({ isExpanded, onExpandClick }) => (
+const Header = ({ isExpanded, isCompact, onExpandClick }) => (
   <div style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}>
-    <Logo style={{ height: '40px', width: 'auto' }} />
+    <Logo
+      style={{
+        height: (isCompact && !isExpanded) ? '20px' : '40px',
+        transition: 'all 0.15s ease',
+        width: 'auto',
+      }}
+    />
 
     <div onClick={onExpandClick} style={{ cursor: 'pointer' }}>
       <KeyboardArrowUp
@@ -26,6 +32,7 @@ const Header = ({ isExpanded, onExpandClick }) => (
 
 Header.propTypes = {
   isExpanded: PropTypes.bool.isRequired,
+  isCompact: PropTypes.bool.isRequired,
   onExpandClick: PropTypes.func.isRequired,
 };
 
