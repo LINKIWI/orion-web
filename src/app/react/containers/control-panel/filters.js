@@ -23,6 +23,7 @@ const FiltersContainer = ({ accuracyThreshold, setAccuracyThreshold, width }) =>
 FiltersContainer.propTypes = {
   accuracyThreshold: PropTypes.number.isRequired,
   setAccuracyThreshold: PropTypes.func.isRequired,
+  width: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = ({ context, filters }) => ({
