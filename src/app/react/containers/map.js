@@ -11,6 +11,7 @@ import {
 import { setViewport } from 'app/redux/actions/map';
 import MapRoot from 'app/react/components/map';
 import withMotion from 'app/react/hoc/with-motion';
+import withWindowDimensions from 'app/react/hoc/with-window-dimensions';
 import LocationParser from 'vis/location-parser';
 
 // Parameters passed to react-motion's spring motion style factory.
@@ -34,14 +35,9 @@ class MapContainer extends Component {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
     zoom: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   };
-
-  state = { containerWidth: null, containerHeight: null };
-
-  componentDidMount() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
-  }
 
   componentWillReceiveProps({ data: nextData, accuracyThreshold: nextAccuracyThreshold }) {
     const { data, accuracyThreshold } = this.props;
@@ -50,15 +46,6 @@ class MapContainer extends Component {
       this.locationParser = new LocationParser(nextData, nextAccuracyThreshold);
     }
   }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
-  }
-
-  onResize = () => this.setState({
-    containerWidth: window.innerWidth,
-    containerHeight: window.innerHeight,
-  });
 
   locationParser = new LocationParser();
 
@@ -71,12 +58,10 @@ class MapContainer extends Component {
       latitude,
       longitude,
       zoom,
+      // Window dimensions props
+      width,
+      height,
     } = this.props;
-    const { containerWidth, containerHeight } = this.state;
-
-    if (!containerWidth || !containerHeight) {
-      return null;
-    }
 
     // Changes in viewport may require re-rendering the map layers. Evaluating this here would cause
     // the layer to remain static despite changes in viewport. Instead, we'll delay evaluation by
@@ -94,8 +79,8 @@ class MapContainer extends Component {
         <MapRoot
           viewport={{
             ...viewport,
-            width: containerWidth,
-            height: containerHeight,
+            width,
+            height,
             latitude,
             longitude,
             zoom,
@@ -125,4 +110,5 @@ export default compose(
     animationStyle: MAP_ANIMATION_STYLE,
     animationProperties: { latitude, longitude, zoom },
   })),
+  withWindowDimensions,
 )(MapContainer);
