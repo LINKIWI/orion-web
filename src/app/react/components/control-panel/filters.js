@@ -22,7 +22,7 @@ const Filters = ({ threshold, minAccuracy, maxAccuracy, width, onAccuracyThresho
         Accuracy
       </Text>
       <Text size="lambda" color="gray25">
-        Filter out points less than a threshold accuracy (meters).
+        Filter out points less than a threshold accuracy (meters)
       </Text>
     </Spacing>
 
