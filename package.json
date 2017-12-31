@@ -33,8 +33,6 @@
     "humanize": "^0.0.9",
     "luma.gl": "^4.0.6",
     "mapbox-gl": "^0.43.0",
-    "preact": "^8.2.7",
-    "preact-compat": "^3.17.0",
     "prop-types": "^15.6.0",
     "raven-js": "^3.21.0",
     "react": "^16.2.0",

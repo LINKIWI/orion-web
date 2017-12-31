@@ -70,10 +70,4 @@ module.exports = {
       comments: false,
     }),
   ].filter(Boolean),
-  resolve: {
-    alias: isProduction ? {
-      react: 'preact-compat',
-      'react-dom': 'preact-compat',
-    } : {},
-  },
 };
