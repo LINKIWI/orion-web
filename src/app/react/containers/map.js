@@ -34,14 +34,9 @@ class MapContainer extends Component {
     latitude: PropTypes.number.isRequired,
     longitude: PropTypes.number.isRequired,
     zoom: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   };
-
-  state = { containerWidth: null, containerHeight: null };
-
-  componentDidMount() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
-  }
 
   componentWillReceiveProps({ data: nextData, accuracyThreshold: nextAccuracyThreshold }) {
     const { data, accuracyThreshold } = this.props;
@@ -50,15 +45,6 @@ class MapContainer extends Component {
       this.locationParser = new LocationParser(nextData, nextAccuracyThreshold);
     }
   }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.onResize);
-  }
-
-  onResize = () => this.setState({
-    containerWidth: window.innerWidth,
-    containerHeight: window.innerHeight,
-  });
 
   locationParser = new LocationParser();
 
@@ -71,12 +57,10 @@ class MapContainer extends Component {
       latitude,
       longitude,
       zoom,
+      // Window dimensions props
+      width,
+      height,
     } = this.props;
-    const { containerWidth, containerHeight } = this.state;
-
-    if (!containerWidth || !containerHeight) {
-      return null;
-    }
 
     // Changes in viewport may require re-rendering the map layers. Evaluating this here would cause
     // the layer to remain static despite changes in viewport. Instead, we'll delay evaluation by
@@ -94,8 +78,8 @@ class MapContainer extends Component {
         <MapRoot
           viewport={{
             ...viewport,
-            width: containerWidth,
-            height: containerHeight,
+            width,
+            height,
             latitude,
             longitude,
             zoom,
@@ -108,7 +92,9 @@ class MapContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ location, filters, options, map }) => ({
+const mapStateToProps = ({ context, location, filters, options, map }) => ({
+  width: context.width,
+  height: context.height,
   data: location.data,
   accuracyThreshold: filters.accuracyThreshold,
   locationDisplayType: options.locationDisplayType,

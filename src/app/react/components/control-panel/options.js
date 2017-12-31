@@ -20,7 +20,7 @@ const Options = ({ locationDisplayType, onLocationDisplayTypeChange }) => (
         Location representation
       </Text>
       <Text size="lambda" color="gray25">
-        Choose how location data is displayed on the map.
+        Choose how location data is displayed on the map
       </Text>
     </Spacing>
 

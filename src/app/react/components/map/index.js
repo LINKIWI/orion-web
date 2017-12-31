@@ -33,7 +33,7 @@ export default class MapRoot extends Component {
         onViewportChange={onViewportChange}
         {...viewport}
       >
-        <div style={{ bottom: 0, position: 'absolute', right: 0 }}>
+        <div style={{ bottom: 0, position: 'absolute', right: 0, zIndex: 2 }}>
           <Spacing right>
             <Spacing size="large" bottom>
               <NavigationControl onViewportChange={onViewportChange} />

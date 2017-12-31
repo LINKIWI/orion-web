@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route } from 'react-router';
-import RootContainer from 'app/react/containers/root';
+import OrionContainer from 'app/react/containers/orion';
 
 const routes = (
   <div>
-    <Route path="*" component={RootContainer} />
+    <Route path="*" component={OrionContainer} />
   </div>
 );
 

@@ -5,10 +5,8 @@ import { Provider } from 'react-redux';
 import { bootstrap } from 'react-elemental';
 import karlaBold from 'react-elemental-fonts/karla-bold';
 import karlaRegular from 'react-elemental-fonts/karla-regular';
-import sourceCodeProMedium from 'react-elemental-fonts/source-code-pro-medium';
-import sourceCodeProRegular from 'react-elemental-fonts/source-code-pro-regular';
 import Raven from 'raven-js';
-import routes from 'app/react/routes';
+import Root from 'app/react/root';
 import store from 'app/redux/store';
 import sentry from 'resources/data/sentry';
 
@@ -20,10 +18,6 @@ export default class App extends Component {
       primary: {
         regular: karlaRegular,
         bold: karlaBold,
-      },
-      secondary: {
-        regular: sourceCodeProRegular,
-        bold: sourceCodeProMedium,
       },
     });
 
@@ -38,9 +32,7 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <BrowserRouter>
-          <div>
-            {routes}
-          </div>
+          <Root />
         </BrowserRouter>
       </Provider>
     );
