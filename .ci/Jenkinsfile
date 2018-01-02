@@ -1,6 +1,9 @@
 pipeline {
     agent {
-        docker 'docker.internal.kevinlin.info/infra/ci-base:0.0.5'
+        docker {
+            image 'docker.internal.kevinlin.info/infra/ci-base:0.1.0'
+            label 'docker-executor'
+        }
     }
 
     stages {
@@ -43,9 +46,8 @@ pipeline {
     }
 
     post {
-        always {
+        success {
             archive 'dist/index.html'
-            deleteDir()
         }
     }
 }
