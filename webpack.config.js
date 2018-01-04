@@ -14,6 +14,10 @@ const BUILD_ENV_VARS = [
   'NODE_ENV',
   'MAPBOX_API_TOKEN',
   'ORION_SERVER_URL',
+  'PIWIK_URL',
+  'PIWIK_SITE_ID',
+  'PIWIK_CLIENT_TRACKER_NAME',
+  'PIWIK_SERVER_TRACKER_NAME',
 ];
 
 const isProduction = process.env.NODE_ENV === 'production';
