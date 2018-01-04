@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import routes from 'app/react/routes';
 import withWindowDimensions from 'app/react/hoc/with-window-dimensions';
 import { setWindowDimensions } from 'app/redux/actions/context';
@@ -26,13 +25,6 @@ class Root extends Component {
   render() {
     return (
       <div>
-        <Helmet>
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-          />
-        </Helmet>
-
         {routes}
       </div>
     );
