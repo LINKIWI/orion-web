@@ -72,8 +72,8 @@ module.exports = {
   ].filter(Boolean),
   resolve: {
     alias: isProduction ? {
-      react: 'preact-compat',
-      'react-dom': 'preact-compat',
+      react: 'inferno-compat',
+      'react-dom': 'inferno-compat',
     } : {},
   },
 };
