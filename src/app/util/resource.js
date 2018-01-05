@@ -1,3 +1,5 @@
+import fetch from 'unfetch';
+
 const BASE_URL = process.env.ORION_SERVER_URL || '';
 
 /**
