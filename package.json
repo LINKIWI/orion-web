@@ -26,7 +26,7 @@
   "dependencies": {
     "@mapbox/geo-viewport": "^0.2.2",
     "color": "^2.0.1",
-    "deck.gl": "^4.1.6",
+    "deck.gl": "^5.0.1",
     "deep-equal": "^1.0.1",
     "dottie": "^2.0.0",
     "functional-match": "^0.0.2",
@@ -34,7 +34,7 @@
     "humanize": "^0.0.9",
     "inferno": "^3.10.1",
     "inferno-compat": "^3.10.1",
-    "luma.gl": "^4.0.6",
+    "luma.gl": "^5.0.1",
     "mapbox-gl": "^0.43.0",
     "piwik-react-router": "^0.12.1",
     "prop-types": "^15.6.0",
