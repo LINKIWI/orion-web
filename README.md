@@ -2,6 +2,8 @@
 
 # orion-web
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/LINKIWI/orion-web.svg)](https://greenkeeper.io/)
+
 `orion-web` is a web visualization frontend designed to accompany [`orion-server`](https://github.com/LINKIWI/orion-server).
 
 [**Live demo**](https://linkiwi.github.io/orion-web/) using sample location data
