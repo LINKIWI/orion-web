@@ -29,6 +29,7 @@ const fetchLocationsMiddleware = (store) => {
       timestamp_start: timestamp.start,
       timestamp_end: timestamp.end,
       limit: null,
+      fields: ['accuracy', 'timestamp', 'latitude', 'longitude'],
     },
   };
 
