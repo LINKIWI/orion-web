@@ -1,3 +1,6 @@
+import fetch from 'unfetch';
+import Raven from 'raven-js';
+
 const BASE_URL = process.env.ORION_SERVER_URL || '';
 
 /**
@@ -18,8 +21,24 @@ const resource = ({ endpoint, method, data }, cb) => fetch(`${BASE_URL}${endpoin
     !['HEAD', 'GET'].includes(method) &&
     { body: JSON.stringify(data) },
 })
-  .then((resp) => resp.json())
-  .then(({ data: respData }) => cb(null, respData))
+  .then((resp) => resp.json().then(({ data: respData } = {}) => {
+    Raven.captureBreadcrumb({
+      message: 'Network resource call complete',
+      category: 'resource',
+      data: {
+        request: {
+          endpoint,
+          method,
+          data,
+        },
+        response: {
+          data: respData,
+          status: resp.status,
+        },
+      },
+    });
+    return cb(null, respData);
+  }))
   .catch((err) => cb(err));
 
 export default resource;
