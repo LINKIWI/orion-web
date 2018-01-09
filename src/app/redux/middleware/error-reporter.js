@@ -7,16 +7,25 @@ import Raven from 'raven-js';
  */
 const errorReporter = (store) => (next) => (action) => {
   try {
-    return next(action);
+    const result = next(action);
+
+    Raven.captureBreadcrumb({
+      message: 'State reduction in response to dispatched action',
+      category: 'redux',
+      data: {
+        action,
+        store: store.getState(),
+      },
+    });
+
+    return result;
   } catch (err) {
-    if (process.env.NODE_ENV === 'production') {
-      Raven.captureException(err, {
-        extra: {
-          action,
-          store: store.getState(),
-        },
-      });
-    }
+    Raven.captureException(err, {
+      extra: {
+        action,
+        store: store.getState(),
+      },
+    });
 
     throw err;
   }
