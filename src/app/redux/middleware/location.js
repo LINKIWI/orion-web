@@ -2,7 +2,7 @@ import { FETCH_LOCATIONS, loadLocations } from 'app/redux/actions/location';
 import { setViewport, setAnimation } from 'app/redux/actions/map';
 import { startProgress, endProgress } from 'app/redux/actions/progress';
 import createMiddleware from 'app/redux/middleware/create-middleware';
-import resource from 'app/util/resource';
+import resource, { EREQUESTDEDUPLICATION } from 'app/util/resource';
 import { fitMapBounds } from 'vis/coordinate';
 
 /**
@@ -21,6 +21,7 @@ const fetchLocationsMiddleware = (store) => {
   }
 
   const opts = {
+    id: 'locations',
     endpoint: '/api/locations',
     method: 'POST',
     data: {
@@ -35,6 +36,10 @@ const fetchLocationsMiddleware = (store) => {
 
   store.dispatch(startProgress());
   resource(opts, (err, json = []) => {
+    if (err && err.code === EREQUESTDEDUPLICATION) {
+      return;
+    }
+
     if (json.length) {
       const {
         center: [longitude, latitude],
