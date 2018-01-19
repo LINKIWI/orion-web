@@ -77,12 +77,12 @@ export default class Slider extends Component {
 
     return (
       <div
+        ref={this.setRef}
         onMouseMove={this.handleMouseMove}
         onMouseDown={this.handleClickStateChange(true)}
         onMouseUp={this.handleClickStateChange(false)}
         onMouseLeave={this.handleClickStateChange(false)}
         style={{ cursor: 'pointer', display: 'inline-block' }}
-        ref={this.setRef}
       >
         <div style={{ left: `${-DOT_DIAMETER / 2}px`, position: 'relative' }}>
           <Spacing size="micro" bottom>

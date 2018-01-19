@@ -72,6 +72,7 @@ module.exports = {
     }),
     isProduction && new webpack.optimize.UglifyJsPlugin({
       comments: false,
+      parallel: true,
     }),
   ].filter(Boolean),
   resolve: {
