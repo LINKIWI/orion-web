@@ -32,8 +32,8 @@ const resource = ({ id = 'fetch', endpoint, method, data }, cb) => {
       'Content-Type': 'application/json',
     },
     ...Object.keys(data).length &&
-    !['HEAD', 'GET'].includes(method) &&
-    { body: JSON.stringify(data) },
+      !['HEAD', 'GET'].includes(method) &&
+      { body: JSON.stringify(data) },
   })
     .then((resp) => {
       if (currentFetchTimestamp !== fetchTimestamps[id]) {

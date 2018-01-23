@@ -70,7 +70,7 @@
     "dotenv": "^4.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "eslint": "^4.15.0",
+    "eslint": "^4.16.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-import-resolver-babel-module": "^4.0.0",
     "eslint-plugin-disable": "^1.0.1",
@@ -86,9 +86,9 @@
     "pre-commit": "^1.2.2",
     "raf": "^3.4.0",
     "react-test-renderer": "^16.2.0",
-    "sinon": "^4.1.6",
+    "sinon": "^4.2.0",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.10.0"
+    "webpack-dev-server": "^2.11.1"
   }
 }
