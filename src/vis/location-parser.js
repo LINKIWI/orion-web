@@ -94,6 +94,7 @@ export default class LocationParser {
       data: iconData,
       iconAtlas: marker,
       iconMapping,
+      fp64: true,
     });
   }
 
@@ -135,6 +136,7 @@ export default class LocationParser {
       id: 'location-line',
       data: lineData,
       strokeWidth: 3,
+      fp64: true,
     });
   }
 
