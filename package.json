@@ -6,7 +6,7 @@
     "clean": "rm -rf dist/",
     "build": "webpack",
     "build-watch": "npm run build -- --watch",
-    "start": "webpack-dev-server --content-base dev/ --watch",
+    "start": "webpack-dev-server --watch",
     "lint": "eslint .",
     "test": "jest",
     "test-watch": "npm run test -- --watch",

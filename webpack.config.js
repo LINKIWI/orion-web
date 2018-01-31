@@ -63,8 +63,10 @@ module.exports = {
       'process.env': {
         ...BUILD_ENV_VARS
           .filter((key) => key in process.env)
-          .reduce((acc, key) =>
-            Object.assign({}, acc, { [key]: JSON.stringify(process.env[key]) }), {}),
+          .reduce((acc, key) => ({
+            ...acc,
+            [key]: JSON.stringify(process.env[key]),
+          }), {}),
       },
     }),
     isProduction && new webpack.LoaderOptionsPlugin({
@@ -80,5 +82,9 @@ module.exports = {
       react: 'inferno-compat',
       'react-dom': 'inferno-compat',
     } : {},
+  },
+  devServer: {
+    historyApiFallback: true,
+    publicPath: '/',
   },
 };
