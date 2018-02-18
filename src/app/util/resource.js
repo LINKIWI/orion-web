@@ -19,9 +19,9 @@ export const EREQUESTDEDUPLICATION = 'EREQUESTDEDUPLICATION';
  * @param {string} endpoint Endpoint path.
  * @param {string} method HTTP verb for the request.
  * @param {Object} data Optional JSON request payload.
- * @param {Function} cb Callback function to invoke on completion.
+ * @param {Function=} cb Callback function to invoke on completion.
  */
-const resource = ({ id = 'fetch', endpoint, method, data }, cb) => {
+const resource = ({ id = 'fetch', endpoint, method, data = {} }, cb = (() => {})) => {
   const currentFetchTimestamp = Date.now();
   fetchTimestamps[id] = currentFetchTimestamp;
 

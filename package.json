@@ -5,17 +5,17 @@
   "scripts": {
     "clean": "rm -rf dist/",
     "build": "webpack",
-    "build-watch": "npm run build -- --watch",
+    "build:watch": "npm run build -- --watch",
     "start": "webpack-dev-server --watch",
     "lint": "eslint .",
     "test": "jest",
-    "test-watch": "npm run test -- --watch",
+    "test:watch": "npm run test -- --watch",
     "cover": "npm run test -- --coverage",
     "coveralls": "npm run cover && cat coverage/lcov.info | coveralls"
   },
   "repository": {
     "type": "git",
-    "url": "https://git.kevinlin.info/personal/orion-web.git"
+    "url": "https://github.com/LINKIWI/orion-web.git"
   },
   "author": "Kevin Lin <developer@kevinlin.info>",
   "license": "MIT",
