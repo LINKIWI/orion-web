@@ -1,5 +1,4 @@
-import { IconLayer, LineLayer, ScreenGridLayer } from 'deck.gl';
-import marker from 'resources/img/marker';
+import { LineLayer, ScatterplotLayer, ScreenGridLayer } from 'deck.gl';
 
 /**
  * Decorator for transparently caching the return value of a method. The initial return value is
@@ -69,32 +68,13 @@ export default class LocationParser {
    * Create an IconLayer (dots) from the input data.
    */
   @withDefinedData()
-  @cacheable('dots')
-  getIconLayer() {
-    const iconData = this.data
-      .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
-      .map(({ latitude, longitude }) => ({
-        position: [longitude, latitude],
-        icon: 'marker',
-        size: 18,
-      }));
-
-    const iconMapping = {
-      marker: {
-        x: 0,
-        y: 0,
-        width: 20,
-        height: 20,
-        mask: false,
-      },
-    };
-
-    return new IconLayer({
-      id: 'location-icon',
-      data: iconData,
-      iconAtlas: marker,
-      iconMapping,
+  getScatterplotLayer() {
+    return new ScatterplotLayer({
+      id: 'location-scatterplot',
+      data: this._getScatterplotLayerData(),
       fp64: true,
+      radiusMinPixels: 3.5,
+      radiusMaxPixels: 3.5,
     });
   }
 
@@ -102,8 +82,73 @@ export default class LocationParser {
    * Create a LineLayer (path) from the input data.
    */
   @withDefinedData()
-  @cacheable('path')
   getLineLayer() {
+    const data = this._getLineLayerData();
+
+    if (!data) {
+      return null;
+    }
+
+    return new LineLayer({
+      id: 'location-line',
+      data,
+      strokeWidth: 3,
+      fp64: true,
+    });
+  }
+
+  /**
+   * Create a ScreenGridLayer (heatmap) from the input data.
+   */
+  @withDefinedData()
+  getScreenGridLayer() {
+    return new ScreenGridLayer({
+      id: 'location-screen-grid',
+      data: this._getScreenGridLayerData(),
+      minColor: [0, 0, 0, 0],
+      maxColor: [90, 189, 250, 245],
+      cellSizePixels: 20,
+    });
+  }
+
+  /**
+   * Calculate the minimum timestamp among all data points that are currently eligible.
+   *
+   * @return {number} The minimum Unix timestamp in the filtered input data.
+   * @private
+   */
+  @cacheable('minTimestamp')
+  _getMinTimestamp() {
+    return this.data
+      .filter(({ accuracy }) => accuracy < this.accuracyThreshold)
+      .map(({ timestamp }) => timestamp)
+      .reduce((acc, val) => Math.min(acc, val), Infinity);
+  }
+
+  /**
+   * Calculate the data used as input to the scatterplot layer.
+   *
+   * @return {Array} Scatterplot layer data array.
+   * @private
+   */
+  @cacheable('dots')
+  _getScatterplotLayerData() {
+    return this.data
+      .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
+      .map(({ latitude, longitude }) => ({
+        position: [longitude, latitude],
+        color: [59, 149, 204, 180],
+      }));
+  }
+
+  /**
+   * Calculate the data used as input to the line layer.
+   *
+   * @return {Array|null} Line layer data array, or null if unavailable.
+   * @private
+   */
+  @cacheable('path')
+  _getLineLayerData() {
     const eligibleData = this.data
       .sort((a, b) => a.timestamp - b.timestamp)
       .filter(({ accuracy }) => accuracy < this.accuracyThreshold);
@@ -118,7 +163,7 @@ export default class LocationParser {
     };
     const { timestamp: lastTimestamp } = eligibleData[eligibleData.length - 1];
 
-    const lineData = eligibleData
+    return eligibleData
       .reduce((acc, { latitude, longitude, timestamp }) => {
         const lastEntry = acc[acc.length - 1];
         const colorRatio = (timestamp - this._getMinTimestamp()) /
@@ -131,45 +176,18 @@ export default class LocationParser {
         };
         return [...acc, entry];
       }, [firstPosition]);
-
-    return new LineLayer({
-      id: 'location-line',
-      data: lineData,
-      strokeWidth: 3,
-      fp64: true,
-    });
   }
 
   /**
-   * Create a ScreenGridLayer (heatmap) from the input data.
-   */
-  @withDefinedData()
-  @cacheable('heatmap')
-  getScreenGridLayer() {
-    const screenGridData = this.data
-      .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
-      .map(({ latitude, longitude }) => ({ position: [longitude, latitude] }));
-
-    return new ScreenGridLayer({
-      id: 'location-screen-grid',
-      data: screenGridData,
-      minColor: [0, 0, 0, 0],
-      maxColor: [90, 189, 250, 245],
-      cellSizePixels: 20,
-    });
-  }
-
-  /**
-   * Calculate the minimum timestamp among all data points that are currently eliglble.
+   * Calculate the data used as input to the screen grid layer.
    *
-   * @return {number} The minimum Unix timestamp in the filtered input data.
+   * @return {Array} Screen grid layer data array.
    * @private
    */
-  @cacheable('minTimestamp')
-  _getMinTimestamp() {
+  @cacheable('heatmap')
+  _getScreenGridLayerData() {
     return this.data
-      .filter(({ accuracy }) => accuracy < this.accuracyThreshold)
-      .map(({ timestamp }) => timestamp)
-      .reduce((acc, val) => Math.min(acc, val), Infinity);
+      .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
+      .map(({ latitude, longitude }) => ({ position: [longitude, latitude] }));
   }
 }
