@@ -10,6 +10,7 @@ import { fitMapBounds } from 'vis/coordinate';
  */
 const fetchLocationsMiddleware = (store) => {
   const {
+    context: { width, height },
     dataSource: { user, device, timestamp },
     filters: { accuracyThreshold },
     map: { viewport },
@@ -44,7 +45,7 @@ const fetchLocationsMiddleware = (store) => {
       const {
         center: [longitude, latitude],
         zoom,
-      } = fitMapBounds(json || [], accuracyThreshold, viewport.width, viewport.height);
+      } = fitMapBounds(json || [], accuracyThreshold, width, height);
       store.dispatch(setAnimation(true));
       store.dispatch(setViewport({ ...viewport, latitude, longitude, zoom }));
     }
