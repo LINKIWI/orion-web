@@ -154,7 +154,8 @@ export default class LocationParser {
       id: 'location-screen-grid',
       data: screenGridData,
       minColor: [0, 0, 0, 0],
-      cellSizePixels: 35,
+      maxColor: [90, 189, 250, 245],
+      cellSizePixels: 20,
     });
   }
 
