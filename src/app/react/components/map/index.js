@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { Spacing } from 'react-elemental';
 import DeckGL from 'deck.gl';
 import MapGL, { NavigationControl } from 'react-map-gl';
+import mapStyle from 'resources/data/map-style.json';
 
 /**
  * Wrapper around MapGL and the DeckGL overlay layer.
  */
 const MapRoot = ({ layersThunk, viewport, onViewportChange }) => (
   <MapGL
-    mapStyle="mapbox://styles/mapbox/dark-v9"
+    mapStyle={mapStyle}
     mapboxApiAccessToken={process.env.MAPBOX_API_TOKEN}
     onViewportChange={onViewportChange}
     {...viewport}
