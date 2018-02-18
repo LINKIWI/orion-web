@@ -24,7 +24,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: {
-    main: './src/resources/templates/entry.js',
+    main: './src',
   },
   output: {
     path: path.resolve(__dirname, './dist'),
