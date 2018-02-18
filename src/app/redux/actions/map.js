@@ -5,8 +5,3 @@ export const setViewport = (viewport) => ({
   type: SET_VIEWPORT,
   payload: { viewport },
 });
-
-export const setAnimation = (isEnabled) => ({
-  type: SET_ANIMATION,
-  payload: { isEnabled },
-});
