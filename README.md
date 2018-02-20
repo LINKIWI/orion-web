@@ -2,6 +2,8 @@
 
 # orion-web
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/LINKIWI/orion-web.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/LINKIWI/orion-web.svg?branch=master)](https://travis-ci.org/LINKIWI/orion-web)
 [![Coverage Status](https://coveralls.io/repos/github/LINKIWI/orion-web/badge.svg?branch=master)](https://coveralls.io/github/LINKIWI/orion-web?branch=master)
 [![dependencies Status](https://david-dm.org/LINKIWI/orion-web/status.svg)](https://david-dm.org/LINKIWI/orion-web)
