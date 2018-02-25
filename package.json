@@ -94,6 +94,6 @@
     "sinon": "^4.3.0",
     "style-loader": "^0.20.2",
     "webpack": "^3.11.0",
-    "webpack-dev-server": "^2.11.1"
+    "webpack-dev-server": "^3.0.0"
   }
 }
