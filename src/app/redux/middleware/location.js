@@ -45,7 +45,7 @@ const fetchLocationsMiddleware = (store) => {
       const {
         center: [longitude, latitude],
         zoom,
-      } = fitMapBounds(json || [], accuracyThreshold, width, height);
+      } = fitMapBounds(json, accuracyThreshold, width, height);
 
       store.dispatch(setViewport({
         ...viewport,
