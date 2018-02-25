@@ -44,7 +44,7 @@
             },
             "1444856087950.3635": {
                 "name": "Marine labels",
-                "collapsed": true
+                "collapsed": false
             },
             "1456969573402.7817": {
                 "name": "Hillshading",
@@ -52,7 +52,7 @@
             },
             "1444862510685.128": {
                 "name": "City labels",
-                "collapsed": false
+                "collapsed": true
             },
             "1444855769305.6016": {
                 "name": "Tunnels",
@@ -69,10 +69,10 @@
         }
     },
     "center": [
-        17.18294618089547,
+        5.6413667081124,
         -1.1368683772161603e-13
     ],
-    "zoom": 0.9262958814139259,
+    "zoom": 0.906890482241333,
     "bearing": 0,
     "pitch": 0,
     "light": {
@@ -8167,14 +8167,14 @@
                         [
                             7,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ],
                         [
                             8,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ]
@@ -8280,14 +8280,14 @@
                         [
                             7,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ],
                         [
                             8,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ]
@@ -8367,14 +8367,14 @@
                         [
                             7,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ],
                         [
                             8,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ]
@@ -8463,14 +8463,14 @@
                         [
                             7,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ],
                         [
                             8,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ]
@@ -8583,14 +8583,14 @@
                         [
                             7,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ],
                         [
                             8,
                             [
-                                "Karla Regular",
+                                "DIN Offc Pro Regular",
                                 "Arial Unicode MS Regular"
                             ]
                         ]
@@ -8703,6 +8703,7 @@
                         ]
                     ]
                 },
+                "text-transform": "uppercase",
                 "symbol-spacing": {
                     "base": 1,
                     "stops": [
@@ -8717,7 +8718,7 @@
                     ]
                 },
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Medium",
                     "Arial Unicode MS Regular"
                 ],
                 "symbol-placement": "line",
@@ -8727,7 +8728,7 @@
                 "text-max-width": 5
             },
             "paint": {
-                "text-color": "hsl(0, 0%, 32%)",
+                "text-color": "hsl(222, 10%, 17%)",
                 "text-halo-blur": 0,
                 "text-halo-color": "hsla(0, 0%, 10%, 0)"
             }
@@ -8761,7 +8762,7 @@
                 "text-letter-spacing": 0.1,
                 "text-line-height": 1.5,
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Medium",
                     "Arial Unicode MS Regular"
                 ],
                 "text-size": {
@@ -8776,10 +8777,11 @@
                             16
                         ]
                     ]
-                }
+                },
+                "text-transform": "uppercase"
             },
             "paint": {
-                "text-color": "hsl(0, 0%, 32%)",
+                "text-color": "hsl(222, 10%, 17%)",
                 "text-halo-blur": 0,
                 "text-halo-color": "hsla(0, 0%, 10%, 0)"
             }
@@ -8811,21 +8813,22 @@
             "layout": {
                 "text-line-height": 1.1,
                 "text-size": {
-                    "base": 1.1,
+                    "base": 1,
                     "stops": [
                         [
-                            2,
+                            3,
                             12
                         ],
                         [
-                            5,
-                            20
+                            6,
+                            16
                         ]
                     ]
                 },
+                "text-transform": "uppercase",
                 "symbol-spacing": 250,
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Medium",
                     "Arial Unicode MS Regular"
                 ],
                 "symbol-placement": "line",
@@ -8835,7 +8838,7 @@
                 "text-max-width": 5
             },
             "paint": {
-                "text-color": "hsl(0, 0%, 32%)",
+                "text-color": "hsl(222, 10%, 17%)",
                 "text-halo-blur": 0,
                 "text-halo-color": "hsla(0, 0%, 10%, 0)"
             }
@@ -8870,25 +8873,26 @@
                 "text-letter-spacing": 0.15,
                 "text-line-height": 1.5,
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Medium",
                     "Arial Unicode MS Regular"
                 ],
                 "text-size": {
-                    "base": 1.1,
+                    "base": 1,
                     "stops": [
                         [
-                            2,
-                            14
+                            3,
+                            12
                         ],
                         [
-                            5,
-                            20
+                            6,
+                            16
                         ]
                     ]
-                }
+                },
+                "text-transform": "uppercase"
             },
             "paint": {
-                "text-color": "hsl(0, 0%, 32%)",
+                "text-color": "hsl(222, 10%, 17%)",
                 "text-halo-blur": 0,
                 "text-halo-color": "hsla(0, 0%, 10%, 0)"
             }
@@ -8917,32 +8921,33 @@
                 ]
             ],
             "layout": {
-                "text-field": "{name_en}",
-                "text-max-width": 4,
-                "text-letter-spacing": 0.25,
                 "text-line-height": 1.1,
-                "symbol-placement": "line",
-                "text-pitch-alignment": "viewport",
-                "text-font": [
-                    "Karla Regular",
-                    "Arial Unicode MS Regular"
-                ],
                 "text-size": {
                     "base": 1,
                     "stops": [
                         [
-                            1,
-                            14
+                            3,
+                            12
                         ],
                         [
-                            4,
-                            30
+                            6,
+                            16
                         ]
                     ]
-                }
+                },
+                "text-transform": "uppercase",
+                "text-font": [
+                    "DIN Offc Pro Medium",
+                    "Arial Unicode MS Regular"
+                ],
+                "symbol-placement": "line",
+                "text-pitch-alignment": "viewport",
+                "text-field": "{name_en}",
+                "text-letter-spacing": 0.25,
+                "text-max-width": 4
             },
             "paint": {
-                "text-color": "hsl(0, 0%, 32%)",
+                "text-color": "hsl(222, 10%, 17%)",
                 "text-halo-blur": 0,
                 "text-halo-color": "hsla(0, 0%, 10%, 0)"
             }
@@ -8976,25 +8981,26 @@
                 "text-letter-spacing": 0.25,
                 "text-line-height": 1.5,
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Medium",
                     "Arial Unicode MS Regular"
                 ],
                 "text-size": {
                     "base": 1,
                     "stops": [
                         [
-                            1,
-                            14
+                            3,
+                            12
                         ],
                         [
-                            4,
-                            30
+                            6,
+                            16
                         ]
                     ]
-                }
+                },
+                "text-transform": "uppercase"
             },
             "paint": {
-                "text-color": "hsl(0, 0%, 32%)",
+                "text-color": "hsl(222, 10%, 17%)",
                 "text-halo-blur": 0,
                 "text-halo-color": "hsla(0, 0%, 10%, 0)"
             }
@@ -9030,7 +9036,7 @@
                 },
                 "text-transform": "uppercase",
                 "text-font": [
-                    "Karla Bold",
+                    "DIN Offc Pro Bold",
                     "Arial Unicode MS Bold"
                 ],
                 "text-field": {
@@ -9096,7 +9102,7 @@
                 },
                 "text-transform": "uppercase",
                 "text-font": [
-                    "Karla Bold",
+                    "DIN Offc Pro Bold",
                     "Arial Unicode MS Bold"
                 ],
                 "text-field": {
@@ -9154,7 +9160,7 @@
                 },
                 "text-transform": "uppercase",
                 "text-font": [
-                    "Karla Bold",
+                    "DIN Offc Pro Bold",
                     "Arial Unicode MS Bold"
                 ],
                 "text-padding": 1,
@@ -9201,7 +9207,7 @@
                 "text-field": "{name_en}",
                 "text-max-width": 6,
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Regular",
                     "Arial Unicode MS Regular"
                 ],
                 "text-size": {
@@ -9257,7 +9263,7 @@
                 },
                 "text-max-width": 6,
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Regular",
                     "Arial Unicode MS Regular"
                 ],
                 "text-size": {
@@ -9313,7 +9319,7 @@
                     ]
                 },
                 "text-font": [
-                    "Karla Regular",
+                    "DIN Offc Pro Regular",
                     "Arial Unicode MS Regular"
                 ],
                 "text-size": {
@@ -9340,7 +9346,7 @@
     ],
     "created": "2018-02-18T17:40:49.734Z",
     "id": "cjdt2vsdj1iyi2sphfwyn3pno",
-    "modified": "2018-02-22T15:57:54.680Z",
+    "modified": "2018-02-25T18:54:11.177Z",
     "owner": "linkiwi",
     "visibility": "public",
     "draft": false
