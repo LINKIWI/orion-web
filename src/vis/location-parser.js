@@ -1,4 +1,5 @@
 import { LineLayer, ScatterplotLayer, ScreenGridLayer } from 'deck.gl';
+import humanize from 'humanize';
 
 /**
  * Decorator for transparently caching the return value of a method. The initial return value is
@@ -58,10 +59,12 @@ export default class LocationParser {
    *
    * @param {Array} data Array of location data objects returned from the API.
    * @param {number} accuracyThreshold Maximum tolerable accuracy value for displayed points.
+   * @param {Function} onPickHover Callback invoked when a pick target in any data layer is hovered.
    */
-  constructor(data = [], accuracyThreshold = Infinity) {
+  constructor(data = [], accuracyThreshold = Infinity, onPickHover = () => {}) {
     this.data = data;
     this.accuracyThreshold = accuracyThreshold;
+    this.onPickHover = onPickHover;
   }
 
   /**
@@ -75,11 +78,29 @@ export default class LocationParser {
       fp64: true,
       radiusMinPixels: 3.5,
       radiusMaxPixels: 3.5,
+      pickable: true,
+      onHover: ({ x, y, object }) => {
+        if (!object) {
+          return this.onPickHover();
+        }
+
+        const { timestamp, accuracy, position: [lon, lat] } = object;
+
+        return this.onPickHover({
+          x,
+          y,
+          annotations: [
+            { heading: 'Timestamp', value: humanize.date('F j, Y, g:i:s A', timestamp) },
+            { heading: 'Coordinates', value: `(${lat}, ${lon})` },
+            { heading: 'Accuracy', value: `${accuracy} m` },
+          ],
+        });
+      },
     });
   }
 
   /**
-   * Create a LineLayer (path) from the input data.
+   * Create a ScatterplotLayer (path) from the input data.
    */
   @withDefinedData()
   getLineLayer() {
@@ -135,9 +156,11 @@ export default class LocationParser {
   _getScatterplotLayerData() {
     return this.data
       .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
-      .map(({ latitude, longitude }) => ({
+      .map(({ timestamp, accuracy, latitude, longitude }) => ({
         position: [longitude, latitude],
         color: [59, 149, 204, 180],
+        timestamp,
+        accuracy,
       }));
   }
 

@@ -32,15 +32,23 @@ class MapContainer extends Component {
     height: PropTypes.number.isRequired,
   };
 
+  state = { annotation: null };
+
   componentWillReceiveProps({ data: nextData, accuracyThreshold: nextAccuracyThreshold }) {
     const { data, accuracyThreshold } = this.props;
 
     if (data !== nextData || accuracyThreshold !== nextAccuracyThreshold) {
-      this.locationParser = new LocationParser(nextData, nextAccuracyThreshold);
+      this.locationParser = new LocationParser(
+        nextData,
+        nextAccuracyThreshold,
+        this.handlePickHover,
+      );
     }
   }
 
   locationParser = new LocationParser();
+
+  handlePickHover = (annotation) => this.setState({ annotation });
 
   render() {
     const {
@@ -51,6 +59,7 @@ class MapContainer extends Component {
       width,
       height,
     } = this.props;
+    const { annotation } = this.state;
 
     // Changes in viewport may require re-rendering the map layers. Evaluating this here would cause
     // the layer to remain static despite changes in viewport. Instead, we'll delay evaluation by
@@ -73,8 +82,9 @@ class MapContainer extends Component {
             transitionInterpolator: new FlyToInterpolator(),
             transitionEasing: easeCubic,
           }}
-          onViewportChange={handleViewportChange}
+          annotation={annotation}
           layersThunk={layersThunk}
+          onViewportChange={handleViewportChange}
         />
       </div>
     );
