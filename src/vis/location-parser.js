@@ -72,6 +72,24 @@ export default class LocationParser {
    */
   @withDefinedData()
   getScatterplotLayer() {
+    const onHover = ({ x, y, object }) => {
+      if (!object) {
+        return this.onPickHover();
+      }
+
+      const { timestamp, accuracy, position: [lon, lat] } = object;
+
+      return this.onPickHover({
+        x,
+        y,
+        annotations: [
+          { heading: 'Timestamp', value: humanize.date('F j, Y, g:i:s A', timestamp) },
+          { heading: 'Coordinates', value: `(${lat}, ${lon})` },
+          { heading: 'Accuracy', value: `${accuracy} m` },
+        ],
+      });
+    };
+
     return new ScatterplotLayer({
       id: 'location-scatterplot',
       data: this._getScatterplotLayerData(),
@@ -79,23 +97,7 @@ export default class LocationParser {
       radiusMinPixels: 3.5,
       radiusMaxPixels: 3.5,
       pickable: true,
-      onHover: ({ x, y, object }) => {
-        if (!object) {
-          return this.onPickHover();
-        }
-
-        const { timestamp, accuracy, position: [lon, lat] } = object;
-
-        return this.onPickHover({
-          x,
-          y,
-          annotations: [
-            { heading: 'Timestamp', value: humanize.date('F j, Y, g:i:s A', timestamp) },
-            { heading: 'Coordinates', value: `(${lat}, ${lon})` },
-            { heading: 'Accuracy', value: `${accuracy} m` },
-          ],
-        });
-      },
+      onHover,
     });
   }
 
