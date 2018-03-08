@@ -80,7 +80,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "html-loader": "^0.5.5",
-    "html-webpack-inline-source-plugin": "^0.0.9",
+    "html-webpack-inline-source-plugin": "^0.0.10",
     "html-webpack-plugin": "^2.30.1",
     "identity-obj-proxy": "^3.0.0",
     "inferno-clone-vnode": "^4.0.4",
