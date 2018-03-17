@@ -33,7 +33,7 @@
     "functional-match": "^0.0.2",
     "history": "^4.7.2",
     "humanize": "^0.0.9",
-    "inferno": "^4.0.4",
+    "inferno": "^5.0.0",
     "inferno-compat": "^4.0.4",
     "luma.gl": "^5.1.1",
     "mapbox-gl": "^0.44.1",
