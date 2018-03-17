@@ -3,6 +3,7 @@
 const dotenv = require('dotenv');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -11,7 +12,6 @@ dotenv.config();
 // Array of known environment variables whose value may be injected into the frontend as a key in
 // process.env, allowing Node-like environment variable access in client-side logic.
 const BUILD_ENV_VARS = [
-  'NODE_ENV',
   'MAPBOX_API_TOKEN',
   'ORION_SERVER_URL',
   'PIWIK_URL',
@@ -23,6 +23,7 @@ const BUILD_ENV_VARS = [
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  mode: isProduction ? 'production' : 'development',
   entry: {
     main: './src',
   },
@@ -52,6 +53,20 @@ module.exports = {
     // Reference: https://github.com/mapbox/mapbox-gl-js/issues/4359#issuecomment-303880888
     noParse: /(mapbox-gl)\.js$/,
   },
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin({
+        uglifyOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ],
+  },
+  performance: {
+    hints: false,
+  },
   plugins: [
     new webpack.ProgressPlugin(),
     new HTMLWebpackPlugin({
@@ -71,10 +86,6 @@ module.exports = {
     }),
     isProduction && new webpack.LoaderOptionsPlugin({
       minimize: true,
-    }),
-    isProduction && new webpack.optimize.UglifyJsPlugin({
-      comments: false,
-      parallel: true,
     }),
   ].filter(Boolean),
   resolve: {
