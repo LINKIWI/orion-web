@@ -34,7 +34,7 @@
     "history": "^4.7.2",
     "humanize": "^0.0.9",
     "inferno": "^4.0.4",
-    "inferno-compat": "^4.0.4",
+    "inferno-compat": "^5.0.0",
     "luma.gl": "^5.1.1",
     "mapbox-gl": "^0.44.1",
     "piwik-react-router": "^0.12.1",
