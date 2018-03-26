@@ -43,7 +43,7 @@
     "react-dom": "^16.2.0",
     "react-elemental": "^1.1.2",
     "react-elemental-fonts": "^0.0.2",
-    "react-favicon": "^0.0.13",
+    "react-favicon": "^0.0.14",
     "react-helmet": "^5.2.0",
     "react-icons": "^2.2.7",
     "react-map-gl": "^3.2.5",
