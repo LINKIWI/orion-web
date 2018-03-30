@@ -3,6 +3,7 @@
 const dotenv = require('dotenv');
 const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -23,8 +24,9 @@ const BUILD_ENV_VARS = [
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  mode: isProduction ? 'production' : 'development',
   entry: {
-    main: './src/resources/templates/entry.js',
+    main: './src',
   },
   output: {
     path: path.resolve(__dirname, './dist'),
@@ -52,32 +54,41 @@ module.exports = {
     // Reference: https://github.com/mapbox/mapbox-gl-js/issues/4359#issuecomment-303880888
     noParse: /(mapbox-gl)\.js$/,
   },
+  optimization: {
+    minimizer: [
+      new UglifyJSPlugin({
+        uglifyOptions: {
+          output: {
+            comments: false,
+          },
+        },
+      }),
+    ],
+  },
+  performance: {
+    hints: false,
+  },
   plugins: [
     new webpack.ProgressPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': BUILD_ENV_VARS
+        .filter((key) => key in process.env)
+        .reduce((acc, key) => ({
+          ...acc,
+          [key]: JSON.stringify(process.env[key]),
+        }), {}),
+    }),
     new HTMLWebpackPlugin({
       template: 'src/resources/templates/index.html',
       inlineSource: '.js$',
     }),
     new HtmlWebpackInlineSourcePlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        ...BUILD_ENV_VARS
-          .filter((key) => key in process.env)
-          .reduce((acc, key) =>
-            Object.assign({}, acc, { [key]: JSON.stringify(process.env[key]) }), {}),
-      },
-    }),
     isProduction && new webpack.LoaderOptionsPlugin({
       minimize: true,
     }),
-    isProduction && new webpack.optimize.UglifyJsPlugin({
-      comments: false,
-    }),
   ].filter(Boolean),
-  resolve: {
-    alias: isProduction ? {
-      react: 'inferno-compat',
-      'react-dom': 'inferno-compat',
-    } : {},
+  devServer: {
+    historyApiFallback: true,
+    publicPath: '/',
   },
 };

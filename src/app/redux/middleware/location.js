@@ -1,5 +1,5 @@
 import { FETCH_LOCATIONS, loadLocations } from 'app/redux/actions/location';
-import { setViewport, setAnimation } from 'app/redux/actions/map';
+import { setViewport } from 'app/redux/actions/map';
 import { startProgress, endProgress } from 'app/redux/actions/progress';
 import createMiddleware from 'app/redux/middleware/create-middleware';
 import resource from 'app/util/resource';
@@ -10,6 +10,7 @@ import { fitMapBounds } from 'vis/coordinate';
  */
 const fetchLocationsMiddleware = (store) => {
   const {
+    context: { width, height },
     dataSource: { user, device },
     filters: { accuracyThreshold },
     map: { viewport },
@@ -33,9 +34,17 @@ const fetchLocationsMiddleware = (store) => {
       const {
         center: [longitude, latitude],
         zoom,
-      } = fitMapBounds(json || [], accuracyThreshold, viewport.width, viewport.height);
-      store.dispatch(setAnimation(true));
-      store.dispatch(setViewport({ ...viewport, latitude, longitude, zoom }));
+      } = fitMapBounds(json, accuracyThreshold, width, height);
+
+      store.dispatch(setViewport({
+        ...viewport,
+        // Override position properties to fit the map bounds to the displayed data
+        latitude,
+        longitude,
+        zoom: zoom - 0.5,
+        // Trigger a transition
+        transitionDuration: 1500,
+      }));
     }
 
     store.dispatch(loadLocations(json));

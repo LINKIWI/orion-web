@@ -2,9 +2,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { bootstrap } from 'react-elemental';
-import karlaBold from 'react-elemental-fonts/karla-bold';
-import karlaRegular from 'react-elemental-fonts/karla-regular';
+import { Elemental } from 'react-elemental';
+import { karlaBold, karlaRegular } from 'react-elemental-fonts';
 import Raven from 'raven-js';
 import PiwikReactRouter from 'piwik-react-router';
 import { createBrowserHistory } from 'history';
@@ -25,14 +24,6 @@ const isProd = NODE_ENV === 'production';
 export default class App extends Component {
   constructor(props) {
     super(props);
-
-    // react-elemental initialization
-    bootstrap({
-      primary: {
-        regular: karlaRegular,
-        bold: karlaBold,
-      },
-    });
 
     // Silence luma.gl and deck.gl logging
     if (isProd) {
@@ -59,9 +50,11 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <BrowserRouter>
-          <Root />
-        </BrowserRouter>
+        <Elemental fontOpts={{ primary: { regular: karlaRegular, bold: karlaBold } }}>
+          <BrowserRouter>
+            <Root />
+          </BrowserRouter>
+        </Elemental>
       </Provider>
     );
   }

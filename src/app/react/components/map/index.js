@@ -1,52 +1,61 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Spacing } from 'react-elemental';
 import DeckGL from 'deck.gl';
 import MapGL, { NavigationControl } from 'react-map-gl';
+import Annotation from 'app/react/components/map/annotation';
+import mapStyle from 'resources/data/map-style.json';
 
 /**
  * Wrapper around MapGL and the DeckGL overlay layer.
  */
-export default class MapRoot extends Component {
-  static propTypes = {
-    viewport: PropTypes.object.isRequired,
-    layersThunk: PropTypes.func.isRequired,
-    onViewportChange: PropTypes.func.isRequired,
-  };
+const MapRoot = ({ annotation, layersThunk, viewport, onViewportChange }) => (
+  <MapGL
+    mapStyle={mapStyle}
+    mapboxApiAccessToken={process.env.MAPBOX_API_TOKEN}
+    onViewportChange={onViewportChange}
+    {...viewport}
+  >
+    <div style={{ bottom: 0, position: 'absolute', right: 0, zIndex: 2 }}>
+      <Spacing right>
+        <Spacing size="large" bottom>
+          <NavigationControl onViewportChange={onViewportChange} />
+        </Spacing>
+      </Spacing>
+    </div>
 
-  componentDidMount() {
-    const { viewport, onViewportChange } = this.props;
+    <DeckGL
+      // Lazy evaluation - need to ensure that this is updated on re-renders.
+      layers={layersThunk()}
+      {...viewport}
+    />
 
-    // During state initialization, the store has no knowledge of the viewport dimensions since the
-    // map had not been rendered yet. Immediately after rendering the map, update the viewport state
-    // with the now-known dimensions.
-    onViewportChange(viewport);
-  }
+    {annotation && (
+      <Annotation
+        x={annotation.x}
+        y={annotation.y}
+        annotations={annotation.annotations}
+      />
+    )}
+  </MapGL>
+);
 
-  render() {
-    const { layersThunk, viewport, onViewportChange } = this.props;
+MapRoot.propTypes = {
+  annotation: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    annotations: PropTypes.arrayOf(PropTypes.shape({
+      heading: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })).isRequired,
+  }),
+  viewport: PropTypes.object.isRequired,
+  layersThunk: PropTypes.func.isRequired,
+  onViewportChange: PropTypes.func.isRequired,
+};
 
-    return (
-      <MapGL
-        mapStyle="mapbox://styles/mapbox/dark-v9"
-        mapboxApiAccessToken={process.env.MAPBOX_API_TOKEN}
-        onViewportChange={onViewportChange}
-        {...viewport}
-      >
-        <div style={{ bottom: 0, position: 'absolute', right: 0, zIndex: 2 }}>
-          <Spacing right>
-            <Spacing size="large" bottom>
-              <NavigationControl onViewportChange={onViewportChange} />
-            </Spacing>
-          </Spacing>
-        </div>
+MapRoot.defaultProps = {
+  annotation: null,
+};
 
-        <DeckGL
-          // Lazy evaluation - need to ensure that this is updated on re-renders.
-          layers={layersThunk()}
-          {...viewport}
-        />
-      </MapGL>
-    );
-  }
-}
+export default MapRoot;

@@ -38,6 +38,18 @@ class Root extends Component {
       <Error />
     ) : (
       <div>
+        <div
+          style={{
+            backgroundColor: 'hsl(203, 14%, 4%)',
+            height: '100%',
+            left: 0,
+            position: 'fixed',
+            top: 0,
+            width: '100%',
+            zIndex: -1,
+          }}
+        />
+
         {routes}
       </div>
     );

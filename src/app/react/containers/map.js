@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { easeCubic } from 'd3-ease';
+import { FlyToInterpolator } from 'react-map-gl';
 import match from 'functional-match';
 import {
   LOCATION_DISPLAY_TYPE_DOTS,
@@ -10,11 +11,7 @@ import {
 } from 'app/redux/reducers/options';
 import { setViewport } from 'app/redux/actions/map';
 import MapRoot from 'app/react/components/map';
-import withMotion from 'app/react/hoc/with-motion';
 import LocationParser from 'vis/location-parser';
-
-// Parameters passed to react-motion's spring motion style factory.
-const MAP_ANIMATION_STYLE = { stiffness: 150, damping: 35 };
 
 /**
  * Wrapper over the primary map component to abstract out logic of translating the location data
@@ -31,43 +28,45 @@ class MapContainer extends Component {
     ]).isRequired,
     viewport: PropTypes.object.isRequired,
     handleViewportChange: PropTypes.func.isRequired,
-    latitude: PropTypes.number.isRequired,
-    longitude: PropTypes.number.isRequired,
-    zoom: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
   };
+
+  state = { annotation: null };
 
   componentWillReceiveProps({ data: nextData, accuracyThreshold: nextAccuracyThreshold }) {
     const { data, accuracyThreshold } = this.props;
 
     if (data !== nextData || accuracyThreshold !== nextAccuracyThreshold) {
-      this.locationParser = new LocationParser(nextData, nextAccuracyThreshold);
+      this.locationParser = new LocationParser(
+        nextData,
+        nextAccuracyThreshold,
+        this.handlePickHover,
+      );
     }
   }
 
   locationParser = new LocationParser();
+
+  handlePickHover = (annotation) => this.setState({ annotation });
 
   render() {
     const {
       locationDisplayType,
       viewport,
       handleViewportChange,
-      // Motion props
-      latitude,
-      longitude,
-      zoom,
       // Window dimensions props
       width,
       height,
     } = this.props;
+    const { annotation } = this.state;
 
     // Changes in viewport may require re-rendering the map layers. Evaluating this here would cause
     // the layer to remain static despite changes in viewport. Instead, we'll delay evaluation by
     // passing through a thunk that is evaluated on every render within the map root.
     const layersThunk = () => [
       match(locationDisplayType, [
-        [LOCATION_DISPLAY_TYPE_DOTS, () => this.locationParser.getIconLayer()],
+        [LOCATION_DISPLAY_TYPE_DOTS, () => this.locationParser.getScatterplotLayer()],
         [LOCATION_DISPLAY_TYPE_PATH, () => this.locationParser.getLineLayer()],
         [LOCATION_DISPLAY_TYPE_HEATMAP, () => this.locationParser.getScreenGridLayer()],
       ])(),
@@ -80,12 +79,12 @@ class MapContainer extends Component {
             ...viewport,
             width,
             height,
-            latitude,
-            longitude,
-            zoom,
+            transitionInterpolator: new FlyToInterpolator(),
+            transitionEasing: easeCubic,
           }}
-          onViewportChange={handleViewportChange}
+          annotation={annotation}
           layersThunk={layersThunk}
+          onViewportChange={handleViewportChange}
         />
       </div>
     );
@@ -105,10 +104,4 @@ const mapDispatchToProps = (dispatch) => ({
   handleViewportChange: (viewport) => dispatch(setViewport(viewport)),
 });
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  withMotion(({ viewport: { latitude, longitude, zoom } }) => ({
-    animationStyle: MAP_ANIMATION_STYLE,
-    animationProperties: { latitude, longitude, zoom },
-  })),
-)(MapContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);

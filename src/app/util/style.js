@@ -3,7 +3,7 @@ export const unselectable = {
   MozUserSelect: 'none',
   MsUserSelect: 'none',
   WebkitUserSelect: 'none',
-  UserSelect: 'none',
+  userSelect: 'none',
 };
 
 export default undefined;

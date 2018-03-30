@@ -1,4 +1,4 @@
-![Orion](https://static.kevinlin.info/files/orion-banner.png)
+![Orion](https://static.kevinlin.info/blog/orion/banner.png)
 
 # orion-web
 
@@ -10,11 +10,11 @@
 
 [**Live demo**](https://linkiwi.github.io/orion-web/) using sample location data
 
-![orion-web-screenshot-1](https://static.kevinlin.info/files/orion-web-screenshot-1.png)
+![dots-sf-alt](https://static.kevinlin.info/blog/orion/dots-sf-alt.png)
 
-![orion-web-screenshot-2](https://static.kevinlin.info/files/orion-web-screenshot-2.png)
+![path-sf](https://static.kevinlin.info/blog/orion/path-sf.png)
 
-![orion-web-screenshot-3](https://static.kevinlin.info/files/orion-web-screenshot-3.png)
+![heatmap-bay](https://static.kevinlin.info/blog/orion/heatmap-bay.png)
 
 ## Overview
 
@@ -31,7 +31,7 @@ The web interface builds on the functionality provided by the official [OwnTrack
 
 ## Installation
 
-You'll need Node v8 or later, any recent version of `npm`, and a working deployment of [`orion-server`](https://github.com/LINKIWI/orion-server).
+You'll need `npm` and a working deployment of [`orion-server`](https://github.com/LINKIWI/orion-server).
 
 First and foremost, create a [Mapbox API token](https://www.mapbox.com/help/how-access-tokens-work/) for your deployment. This is used to render the interactive map.
 
