@@ -87,12 +87,6 @@ module.exports = {
       minimize: true,
     }),
   ].filter(Boolean),
-  resolve: {
-    alias: isProduction ? {
-      react: 'inferno-compat',
-      'react-dom': 'inferno-compat',
-    } : {},
-  },
   devServer: {
     historyApiFallback: true,
     publicPath: '/',
