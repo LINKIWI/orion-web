@@ -13,8 +13,12 @@ describe('Middleware factory', () => {
     };
     const middleware = createMiddleware(middlewareMapping);
 
-    middleware(store)(next)(action);
+    // Unknown action
+    middleware(store)(next)({ type: 'unknown' });
+    expect(middlewareMapping.actionType).not.toBeCalled();
 
+    // Known action
+    middleware(store)(next)(action);
     expect(middlewareMapping.actionType).toBeCalledWith('store', { type: 'actionType' });
     expect(next).toBeCalledWith(action);
   });
