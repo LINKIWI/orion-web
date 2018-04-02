@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Spacing } from 'react-elemental';
+import { spacing, Spacing } from 'react-elemental';
 import DataSourceContainer from 'app/react/containers/control-panel/data-source';
 import FiltersContainer from 'app/react/containers/control-panel/filters';
 import Header from 'app/react/components/control-panel/header';
@@ -23,7 +23,16 @@ class ControlPanelContainer extends Component {
     };
   }
 
-  toggleExpansionState = () => this.setState(({ isExpanded }) => ({ isExpanded: !isExpanded }));
+  root = React.createRef();
+
+  toggleExpansionState = () => this.setState(({ isExpanded }) => {
+    // When transitioning from an expanded to a contracted state, reset the scroll position
+    if (isExpanded && this.root.current) {
+      this.root.current.scrollTop = 0;
+    }
+
+    return { isExpanded: !isExpanded };
+  });
 
   render() {
     const { isCompact } = this.props;
@@ -35,6 +44,7 @@ class ControlPanelContainer extends Component {
       opacity: 0.5,
       overflowX: 'hidden',
       overflowY: 'hidden',
+      padding: `0 ${spacing.large}`,
       transition: 'all 0.3s ease',
       width: '500px',
     };
@@ -42,6 +52,7 @@ class ControlPanelContainer extends Component {
     const expandedStyle = {
       maxHeight: '100vh',
       opacity: 1,
+      overflowY: 'auto',
     };
 
     const compactStyle = {
@@ -49,21 +60,18 @@ class ControlPanelContainer extends Component {
       maxHeight: '40px',
       height: '100vh',
       overflowX: 'hidden',
-      overflowY: 'auto',
+      overflowY: 'hidden',
       width: 'inherit',
     };
 
     return (
-      <Spacing
-        size="large"
+      <div
+        ref={this.root}
         style={{
           ...baseStyle,
           ...isCompact && compactStyle,
           ...isExpanded && expandedStyle,
         }}
-        right
-        left
-        padding
       >
         <Spacing
           size={(isCompact && !isExpanded) ? 'tiny' : 'large'}
@@ -90,7 +98,7 @@ class ControlPanelContainer extends Component {
 
           <OptionsContainer />
         </Spacing>
-      </Spacing>
+      </div>
     );
   }
 }
