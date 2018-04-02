@@ -5,6 +5,10 @@ import createMiddleware from 'app/redux/middleware/create-middleware';
 import resource, { EREQUESTDEDUPLICATION } from 'app/util/resource';
 import { fitMapBounds } from 'vis/coordinate';
 
+// Stateful record of the most recent locations request.
+// Used to reject UI updates that are stale (superseded by a more recent request).
+let locationLoadID = 0;
+
 /**
  * Start an XHR to fetch location data from the server with the parameters currently in the store.
  */
@@ -35,6 +39,11 @@ const fetchLocationsMiddleware = (store) => {
     },
   };
 
+  // There can be multiple, concurrent instances of this logic if there are multiple timestamp
+  // ranges queried over a short amount of time. Keep a record of the current request ID to ensure
+  // that only the most recent request is actually loaded into the global store.
+  const request = ++locationLoadID;  // eslint-disable-line no-plusplus
+
   store.dispatch(startProgress());
   resource(opts, (err, json = []) => {
     if (err && err.code === EREQUESTDEDUPLICATION) {
@@ -46,6 +55,13 @@ const fetchLocationsMiddleware = (store) => {
         center: [longitude, latitude],
         zoom,
       } = fitMapBounds(json, accuracyThreshold, width, height);
+
+      // The map fit is computationally intensive. It is possible that a new network request
+      // completes before a prior request's computation has completed, at which point the current
+      // request should be rejected (it has been superseded with a more recent request).
+      if (request !== locationLoadID) {
+        return;
+      }
 
       store.dispatch(setViewport({
         ...viewport,
