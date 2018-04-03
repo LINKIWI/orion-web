@@ -11,7 +11,7 @@ pipeline {
             parallel {
                 stage('Node') {
                     steps {
-                        sh 'npm-s3 install'
+                        sh 'npm install'
                     }
                 }
                 stage('Environment') {
