@@ -52,7 +52,6 @@ class ControlPanelContainer extends Component {
     const expandedStyle = {
       maxHeight: '100vh',
       opacity: 1,
-      overflowY: 'auto',
     };
 
     const compactStyle = {
@@ -64,6 +63,10 @@ class ControlPanelContainer extends Component {
       width: 'inherit',
     };
 
+    const expandedCompactStyle = {
+      overflowY: 'auto',
+    };
+
     return (
       <div
         ref={this.root}
@@ -71,6 +74,7 @@ class ControlPanelContainer extends Component {
           ...baseStyle,
           ...isCompact && compactStyle,
           ...isExpanded && expandedStyle,
+          ...isCompact && isExpanded && expandedCompactStyle,
         }}
       >
         <Spacing
