@@ -11,22 +11,19 @@ import { viewport } from '@mapbox/geo-viewport';
  *                   map bounds to the data..
  */
 export const fitMapBounds = (data, accuracyThreshold, width, height) => {
-  const minLongitude = data
+  const { minLongitude, minLatitude, maxLongitude, maxLatitude } = data
     .filter(({ accuracy }) => accuracy < accuracyThreshold)
-    .map(({ longitude }) => longitude)
-    .reduce((acc, val) => Math.min(acc, val), Infinity);
-  const maxLatitude = data
-    .filter(({ accuracy }) => accuracy < accuracyThreshold)
-    .map(({ latitude }) => latitude)
-    .reduce((acc, val) => Math.max(acc, val), -Infinity);
-  const maxLongitude = data
-    .filter(({ accuracy }) => accuracy < accuracyThreshold)
-    .map(({ longitude }) => longitude)
-    .reduce((acc, val) => Math.max(acc, val), -Infinity);
-  const minLatitude = data
-    .filter(({ accuracy }) => accuracy < accuracyThreshold)
-    .map(({ latitude }) => latitude)
-    .reduce((acc, val) => Math.min(acc, val), Infinity);
+    .reduce((acc, val) => ({
+      minLongitude: Math.min(acc.minLongitude, val.longitude),
+      maxLongitude: Math.max(acc.maxLongitude, val.longitude),
+      minLatitude: Math.min(acc.minLatitude, val.latitude),
+      maxLatitude: Math.max(acc.maxLatitude, val.latitude),
+    }), {
+      minLongitude: Infinity,
+      maxLongitude: -Infinity,
+      minLatitude: Infinity,
+      maxLatitude: -Infinity,
+    });
 
   return viewport([minLongitude, minLatitude, maxLongitude, maxLatitude], [width, height]);
 };
