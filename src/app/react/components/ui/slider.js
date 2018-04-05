@@ -41,6 +41,11 @@ export default class Slider extends Component {
     this.ref = ref;
   };
 
+  handleTouchMove = (evt) => {
+    const [touch] = evt.touches;
+    return touch && this.handleMouseMove({ clientX: touch.clientX });
+  };
+
   handleMouseMove = (evt) => {
     const { width, min, max, onChange } = this.props;
     const { isDragging } = this.state;
@@ -79,8 +84,12 @@ export default class Slider extends Component {
       <div
         ref={this.setRef}
         onMouseMove={this.handleMouseMove}
+        onTouchMove={this.handleTouchMove}
         onMouseDown={this.handleClickStateChange(true)}
+        onTouchStart={this.handleClickStateChange(true)}
         onMouseUp={this.handleClickStateChange(false)}
+        onTouchEnd={this.handleClickStateChange(false)}
+        onTouchCancel={this.handleClickStateChange(false)}
         onMouseLeave={this.handleClickStateChange(false)}
         style={{ cursor: 'pointer', display: 'inline-block' }}
       >
