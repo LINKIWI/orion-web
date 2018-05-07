@@ -33,7 +33,7 @@
     "functional-match": "^0.0.2",
     "history": "^4.7.2",
     "humanize": "^0.0.9",
-    "mapbox-gl": "^0.44.1",
+    "mapbox-gl": "^0.45.0",
     "piwik-react-router": "^0.12.1",
     "prop-types": "^15.6.1",
     "raven-js": "^3.24.0",
