@@ -29,7 +29,7 @@
     ]
   },
   "dependencies": {
-    "@mapbox/geo-viewport": "^0.2.2",
+    "@mapbox/geo-viewport": "^0.3.0",
     "color": "^3.0.0",
     "d3-ease": "^1.0.3",
     "deck.gl": "^5.2.5",
