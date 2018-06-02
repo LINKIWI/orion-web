@@ -71,7 +71,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "coveralls": "^3.0.1",
     "css-loader": "^0.28.11",
-    "dotenv": "^5.0.0",
+    "dotenv": "^6.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
