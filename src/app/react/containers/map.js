@@ -50,6 +50,13 @@ class MapContainer extends Component {
 
   handlePickHover = (annotation) => this.setState({ annotation });
 
+  handleWebGLInitialized = (gl) => {
+    // Enable additive blending on deck.gl overlay elements
+    gl.enable(gl.BLEND);
+    gl.blendFuncSeparate(gl.SRC_ALPHA, gl.ONE, gl.ONE_MINUS_DST_ALPHA, gl.ONE);
+    gl.blendEquation(gl.FUNC_ADD);
+  };
+
   render() {
     const {
       locationDisplayType,
@@ -85,6 +92,7 @@ class MapContainer extends Component {
           annotation={annotation}
           layersThunk={layersThunk}
           onViewportChange={handleViewportChange}
+          onWebGLInitialized={this.handleWebGLInitialized}
         />
       </div>
     );

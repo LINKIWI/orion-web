@@ -9,7 +9,7 @@ import mapStyle from 'resources/data/map-style.json';
 /**
  * Wrapper around MapGL and the DeckGL overlay layer.
  */
-const MapRoot = ({ annotation, layersThunk, viewport, onViewportChange }) => (
+const MapRoot = ({ annotation, layersThunk, viewport, onViewportChange, onWebGLInitialized }) => (
   <MapGL
     mapStyle={mapStyle}
     mapboxApiAccessToken={process.env.MAPBOX_API_TOKEN}
@@ -27,6 +27,7 @@ const MapRoot = ({ annotation, layersThunk, viewport, onViewportChange }) => (
     <DeckGL
       // Lazy evaluation - need to ensure that this is updated on re-renders.
       layers={layersThunk()}
+      onWebGLInitialized={onWebGLInitialized}
       {...viewport}
     />
 
@@ -52,6 +53,7 @@ MapRoot.propTypes = {
   viewport: PropTypes.object.isRequired,
   layersThunk: PropTypes.func.isRequired,
   onViewportChange: PropTypes.func.isRequired,
+  onWebGLInitialized: PropTypes.func.isRequired,
 };
 
 MapRoot.defaultProps = {
