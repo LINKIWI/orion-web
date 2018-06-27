@@ -10,7 +10,7 @@ const initialState = {
   user: null,
   device: null,
   timestamp: {
-    start: (new Date().getTime() / 1000) - (31 * 24 * 3600),
+    start: (new Date().getTime() / 1000) - (24 * 3600),
     end: (new Date().getTime() / 1000) + (24 * 3600),
   },
 };
