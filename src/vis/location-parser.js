@@ -97,6 +97,8 @@ export default class LocationParser {
       radiusMinPixels: 3.5,
       radiusMaxPixels: 3.5,
       pickable: true,
+      autoHighlight: true,
+      highlightColor: [255, 255, 255, 255],
       onHover,
     });
   }
