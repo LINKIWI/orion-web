@@ -145,9 +145,9 @@ export default class LocationParser {
         x,
         y,
         annotations: [
+          { heading: 'Timestamp', value: humanize.date(TIMESTAMP_FORMAT, sourceTimestamp) },
           { heading: 'Source', value: `(${sourceLat}, ${sourceLon})` },
           { heading: 'Destination', value: `(${targetLat}, ${targetLon})` },
-          { heading: 'Timestamp', value: humanize.date(TIMESTAMP_FORMAT, sourceTimestamp) },
           { heading: 'Distance delta', value: `${dist} meters` },
           { heading: 'Time delta', value: duration },
         ],
