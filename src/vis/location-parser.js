@@ -248,7 +248,7 @@ export default class LocationParser {
           targetPosition: [longitude, latitude],
           targetTimestamp: timestamp,
           // Start of the path is red; end of the path is blue
-          color: [255 * (1 - colorRatio), 160 * colorRatio, 255 * colorRatio],
+          color: [255 * (1 - colorRatio), 160 * colorRatio, 255 * colorRatio, 180],
         };
         return [...acc, entry];
       }, [firstPosition]);
