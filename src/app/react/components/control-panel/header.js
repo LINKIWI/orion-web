@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { colors } from 'react-elemental';
-import KeyboardArrowUp from 'react-icons/lib/md/keyboard-arrow-up';
+import { MdKeyboardArrowUp } from 'react-icons/md';
 import Logo from 'app/react/components/logo';
 
 /**
@@ -33,7 +33,7 @@ export default class Header extends Component {
         />
 
         <a href="#" onClick={this.handleExpansionToggleClick}>
-          <KeyboardArrowUp
+          <MdKeyboardArrowUp
             style={{
               color: colors.gray50,
               fontSize: '24px',
