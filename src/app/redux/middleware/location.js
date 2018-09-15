@@ -52,7 +52,8 @@ const fetchLocationsMiddleware = (store) => {
 
     if (json.length) {
       const {
-        center: [longitude, latitude],
+        latitude,
+        longitude,
         zoom,
       } = fitMapBounds(json, accuracyThreshold, width, height);
 
