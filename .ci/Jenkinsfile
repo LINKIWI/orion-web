@@ -1,36 +1,35 @@
 pipeline {
     agent {
         docker {
-            image 'docker.internal.kevinlin.info/infra/ci-base:0.1.0'
+            image 'docker.internal.kevinlin.info/infra/ci-base:0.1.1'
             label 'docker-executor'
         }
     }
 
+    options {
+        withAWS(
+            endpointUrl: 'https://storage.kevinlin.info',
+            credentials: 'storage-internal',
+        )
+    }
+
     stages {
+        stage('Environment') {
+            steps {
+                s3Download(
+                    bucket: 'internal',
+                    path: 'resources/orion-web/.env',
+                    file: '.env',
+                )
+            }
+        }
         stage('Install') {
-            parallel {
-                stage('Node') {
-                    steps {
-                        sh 'npm install'
-                    }
-                }
-                stage('Environment') {
-                    steps {
-                        sh 'cp .env.example .env'
-                    }
-                }
+            steps {
+                sh 'npm install'
             }
         }
         stage('Test') {
             parallel {
-                stage('Build') {
-                    environment {
-                        NODE_ENV = 'production'
-                    }
-                    steps {
-                        sh 'npm run build'
-                    }
-                }
                 stage('Lint') {
                     steps {
                         sh 'npm run lint'
@@ -43,11 +42,23 @@ pipeline {
                 }
             }
         }
-    }
-
-    post {
-        success {
-            archive 'dist/index.html'
+        stage('Build') {
+            environment {
+                NODE_ENV = 'production'
+            }
+            steps {
+                sh 'npm run build'
+            }
+        }
+        stage('Release') {
+            steps {
+                sh 'tar -czf release.tar.gz dist/'
+                s3Upload(
+                    bucket: 'internal',
+                    path: "deploy/${env.JOB_NAME}/${env.GIT_COMMIT}/",
+                    file: 'release.tar.gz',
+                )
+            }
         }
     }
 }
