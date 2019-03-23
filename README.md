@@ -31,7 +31,7 @@ The web interface builds on the functionality provided by the official [OwnTrack
 
 ## Installation
 
-You'll need `npm` and a working deployment of [`orion-server`](https://github.com/LINKIWI/orion-server).
+You'll need a `node` runtime, `npm`, and a working deployment of [`orion-server`](https://github.com/LINKIWI/orion-server). Follow the instructions at the [Node.js](https://nodejs.org/en/) website on how to get the first two set up for your platform.
 
 First and foremost, create a [Mapbox API token](https://www.mapbox.com/help/how-access-tokens-work/) for your deployment.\* This is used to render the interactive map.
 
