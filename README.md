@@ -10,11 +10,15 @@
 
 [**Live demo**](https://linkiwi.github.io/orion-web/) using sample location data
 
-![dots-sf-alt](https://static.kevinlin.info/blog/orion/dots-sf-alt.png)
+![dots-sf-alt](https://static.kevinlin.info/blog/orion/dots-sf-alt.jpg)
 
-![path-sf](https://static.kevinlin.info/blog/orion/path-sf.png)
+![path-soma](https://static.kevinlin.info/blog/orion/path-soma.jpg)
 
-![heatmap-bay](https://static.kevinlin.info/blog/orion/heatmap-bay.png)
+![path-sf](https://static.kevinlin.info/blog/orion/path-sf.jpg)
+
+![dots-sf](https://static.kevinlin.info/blog/orion/dots-sf.jpg)
+
+![heatmap-bay](https://static.kevinlin.info/blog/orion/heatmap-bay.jpg)
 
 ## Overview
 
