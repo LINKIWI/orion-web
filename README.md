@@ -2,13 +2,9 @@
 
 # orion-web
 
-[![Build Status](https://travis-ci.org/LINKIWI/orion-web.svg?branch=master)](https://travis-ci.org/LINKIWI/orion-web)
-[![Coverage Status](https://coveralls.io/repos/github/LINKIWI/orion-web/badge.svg?branch=master)](https://coveralls.io/github/LINKIWI/orion-web?branch=master)
-[![dependencies Status](https://david-dm.org/LINKIWI/orion-web/status.svg)](https://david-dm.org/LINKIWI/orion-web)
-
 `orion-web` is a web visualization frontend designed to accompany [`orion-server`](https://github.com/LINKIWI/orion-server).
 
-[**Live demo**](https://linkiwi.github.io/orion-web/) using sample location data
+[**Live demo**](https://orion-web.static.kevinlin.info) using sample location data
 
 ![dots-sf-alt](https://static.kevinlin.info/blog/orion/dots-sf-alt.jpg)
 
