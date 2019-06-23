@@ -45,7 +45,7 @@
     "raven-js": "^3.26.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
-    "react-elemental": "^1.2.0",
+    "react-elemental": "^1.2.2",
     "react-elemental-fonts": "^0.0.2",
     "react-favicon": "^0.0.14",
     "react-helmet": "^5.2.0",
