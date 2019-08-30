@@ -4,7 +4,7 @@ MAINTAINER Kevin Lin <developer@kevinlin.info>
 ARG mapbox_api_token
 ENV NODE_ENV production
 
-RUN npm install -g webpack webpack-cli dotenv
+RUN npm install -g webpack@^4.15.1
 WORKDIR /app
 COPY . /app
 RUN npm install
