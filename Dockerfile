@@ -4,7 +4,7 @@ MAINTAINER Kevin Lin <developer@kevinlin.info>
 ARG mapbox_api_token
 ENV NODE_ENV production
 
-RUN apk update && apk add curl unzip && npm install -g node-static
+RUN apk update && apk add curl unzip && npm install -g node-static webpack
 COPY . /
 RUN  npm install && npm run build
 
