@@ -5,7 +5,8 @@ ARG mapbox_api_token
 ENV NODE_ENV production
 
 RUN npm install -g node-static webpack
-COPY . /
+WORKDIR /app
+COPY . /app
 RUN  npm install && npm run build
 
 EXPOSE 80
