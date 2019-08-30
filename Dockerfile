@@ -1,4 +1,4 @@
-FROM node:8-alpine as builder
+FROM node:11-alpine as builder
 MAINTAINER Kevin Lin <developer@kevinlin.info>
 
 ARG mapbox_api_token
