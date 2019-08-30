@@ -1,14 +1,18 @@
-FROM node:8.9.3-alpine
+FROM node:8-alpine as builder
 MAINTAINER Kevin Lin <developer@kevinlin.info>
 
 ARG mapbox_api_token
 ENV NODE_ENV production
 
-RUN npm install -g node-static webpack
+RUN npm install -g node-static webpack webpack-cli
 WORKDIR /app
 COPY . /app
-RUN  npm install && npm run build
+RUN npm install
+RUN webpack
 
-EXPOSE 80
+FROM pierrezemb/gostatic
 
-CMD ["static", "dist", "-a", "0.0.0.0", "-p", "80"]
+COPY --from=builder /app/dist /srv/http
+
+EXPOSE 8043
+ENTRYPOINT ["/goStatic"]
