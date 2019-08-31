@@ -1,0 +1,19 @@
+worker_processes 1;
+events {
+    worker_connections 1024;
+}
+http {
+    upstream docker-orion-server {
+        server ${SERVER_URL}:${SERVER_PORT};
+    }
+    server {
+        listen ${LISTEN_PORT};
+	root /usr/share/nginx/html;
+        location /api {
+            proxy_pass http://docker-orion-server;
+        }
+        location / {
+            try_files $uri @docker-orion-server;
+        }
+    }
+}
