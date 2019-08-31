@@ -8,7 +8,6 @@ WORKDIR /app
 COPY . /app
 RUN npm install -g webpack webpack-cli
 RUN npm install --dev && npm install
-RUN ls node_modules/*
 RUN webpack
 
 FROM pierrezemb/gostatic
