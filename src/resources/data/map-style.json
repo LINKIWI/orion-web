@@ -79,10 +79,11 @@
         "intensity": 0.56
     },
     "sources": {
-        "composite": {
-            "url": "mapbox://mapbox.mapbox-terrain-v2,mapbox.mapbox-streets-v7",
-            "type": "vector"
-        }
+        "raster-tiles": {
+            "type": "raster",
+            "tiles": ["https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"],
+            "tileSize": 256,
+            "attribution": "Map tiles by Stamen Design"
     },
     "sprite": "mapbox://sprites/linkiwi/cjdt2vsdj1iyi2sphfwyn3pno",
     "glyphs": "mapbox://fonts/linkiwi/{fontstack}/{range}.pbf",
