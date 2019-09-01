@@ -83,7 +83,7 @@
             "type": "raster",
             "tiles": ["https://stamen-tiles.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.jpg"],
             "tileSize": 256,
-            "attribution": "Map tiles by Stamen Design"
+            "attribution": "Map tiles by Stamen Design"}
     },
     "sprite": "mapbox://sprites/linkiwi/cjdt2vsdj1iyi2sphfwyn3pno",
     "glyphs": "mapbox://fonts/linkiwi/{fontstack}/{range}.pbf",
