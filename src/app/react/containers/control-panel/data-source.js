@@ -60,6 +60,7 @@ const DataSourceContainer = ({
 
 DataSourceContainer.propTypes = {
   userDevices: PropTypes.shape({
+    err: PropTypes.object,
     data: PropTypes.array,
   }).isRequired,
   user: PropTypes.string,
