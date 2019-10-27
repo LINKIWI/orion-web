@@ -207,7 +207,7 @@ export default class LocationParser {
       .filter(({ accuracy }) => accuracy <= this.accuracyThreshold)
       .map(({ timestamp, accuracy, latitude, longitude }) => ({
         position: [longitude, latitude],
-        color: [59, 149, 204, 180],
+        color: [59, 149, 204, 130],
         timestamp,
         accuracy,
       }));
@@ -248,7 +248,7 @@ export default class LocationParser {
           targetPosition: [longitude, latitude],
           targetTimestamp: timestamp,
           // Start of the path is red; end of the path is blue
-          color: [255 * (1 - colorRatio), 160 * colorRatio, 255 * colorRatio, 180],
+          color: [255 * (1 - colorRatio), 160 * colorRatio, 255 * colorRatio, 130],
         };
         return [...acc, entry];
       }, [firstPosition]);
